@@ -207,6 +207,53 @@ input[type=range]{width:100%;accent-color:var(--red);cursor:pointer}
 .al-row{display:flex;align-items:center;gap:8px;font-size:11px;color:var(--muted);margin-bottom:4px}
 .al-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
 
+/* ── Radius Check Mode ───────────────────────────────────────────────────── */
+#rc-filters{width:210px;flex-shrink:0;border-right:1px solid var(--border);background:var(--surface);padding:18px 14px;overflow-y:auto;display:none;flex-direction:column;gap:20px}
+#rc-filters.visible{display:flex}
+#rc-legend{position:absolute;bottom:20px;right:20px;background:rgba(13,15,16,.88);border:1px solid var(--border);border-radius:8px;padding:10px 14px;pointer-events:none;display:none;min-width:170px}
+#rc-legend.visible{display:block}
+.rc-leg-title{font-family:"DM Mono",monospace;font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px}
+.rc-leg-row{display:flex;align-items:center;gap:8px;font-size:11px;color:var(--muted);margin-bottom:4px}
+.rc-leg-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+.rc-miles-display{font-family:"DM Mono",monospace;font-size:12px;color:var(--red);text-align:center;padding:6px 8px;background:var(--surface2);border-radius:5px;border:1px solid var(--border)}
+
+/* ── Avails List Mode ────────────────────────────────────────────────────── */
+#avails-filters{width:210px;flex-shrink:0;border-right:1px solid var(--border);background:var(--surface);padding:18px 14px;overflow-y:auto;display:none;flex-direction:column;gap:16px}
+#avails-filters.visible{display:flex}
+.avails-budget-row{display:flex;gap:6px;align-items:center}
+.avails-budget-input{width:88px;background:var(--surface2);border:1px solid var(--border);color:var(--text);padding:5px 7px;border-radius:6px;font-family:"DM Mono",monospace;font-size:11px;outline:none;transition:border-color .15s;-moz-appearance:textfield}
+.avails-budget-input::-webkit-inner-spin-button,.avails-budget-input::-webkit-outer-spin-button{-webkit-appearance:none}
+.avails-budget-input:focus{border-color:var(--red)}
+.avails-budget-input::placeholder{color:var(--muted)}
+input[type=date].prox-input{color-scheme:dark}
+#avails-output{position:absolute;inset:0;background:var(--bg);z-index:80;display:none;flex-direction:column}
+#avails-output.visible{display:flex}
+.avails-toolbar{padding:10px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-shrink:0;background:var(--surface)}
+.avails-toolbar-label{font-family:"DM Mono",monospace;font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.1em}
+.avails-summary{font-family:"DM Mono",monospace;font-size:11px;color:var(--text);margin-left:14px}
+.avails-copy-btn{font-family:"DM Mono",monospace;font-size:10px;color:#0d0f10;background:#d0d0d0;border:1px solid #bbb;padding:5px 12px;border-radius:5px;cursor:pointer;letter-spacing:.04em}
+.avails-copy-btn:hover{color:var(--red);border-color:var(--red)}
+.avails-close-btn{font-family:"DM Mono",monospace;font-size:10px;color:var(--muted);background:none;border:1px solid var(--border);padding:5px 10px;border-radius:5px;cursor:pointer}
+.avails-close-btn:hover{color:var(--text);border-color:var(--border2)}
+.avails-scroll{flex:1;overflow-y:auto;padding:12px 24px 24px}
+.avails-meta{font-family:"DM Mono",monospace;font-size:11px;color:var(--muted);margin-bottom:14px;display:flex;gap:10px;flex-wrap:wrap}
+.avails-meta-city{color:var(--text);font-weight:600}
+.avails-section-head{font-family:"DM Mono",monospace;font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin:18px 0 8px;padding-bottom:6px;border-bottom:1px solid var(--border)}
+.avails-conflict-head{color:var(--red)}
+.avails-item{padding:9px 0;border-bottom:1px solid rgba(42,48,53,.5)}
+.avails-item:last-child{border-bottom:none}
+.avails-name{font-size:13px;font-weight:500;color:var(--text);margin-bottom:3px}
+.avails-conflict-name{color:var(--red)}
+.avails-guar{font-family:"DM Mono",monospace;font-size:10px;color:var(--muted);margin-left:8px;font-weight:400}
+.avails-status-line{font-family:"DM Mono",monospace;font-size:11px;margin-top:2px}
+.avails-routed{color:#39ff14}
+.avails-routable{color:#ffd700}
+.avails-ok{color:#00c88c}
+.avails-noted{color:#a0b0c0}
+.avails-nodata{color:var(--muted);font-style:italic}
+.avails-err{color:var(--red)}
+.avails-sub{font-family:"DM Mono",monospace;font-size:10px;color:var(--muted);margin-top:2px}
+
 /* ── Routing Mode ─────────────────────────────────────────────────────────── */
 #routing-filters{width:210px;flex-shrink:0;border-right:1px solid var(--border);background:var(--surface);padding:18px 14px;overflow-y:auto;display:none;flex-direction:column;gap:20px}
 #routing-filters.visible{display:flex}
@@ -301,6 +348,8 @@ input[type=range]{width:100%;accent-color:var(--red);cursor:pointer}
     <button class="mode-tab active" id="tab-venue" onclick="setAppMode('venue')">Venue</button>
     <button class="mode-tab" id="tab-artist" onclick="setAppMode('artist')">Artist</button>
     <button class="mode-tab" id="tab-routing" onclick="setAppMode('routing')">Routing</button>
+    <button class="mode-tab" id="tab-radius" onclick="setAppMode('radius')">Radius Check</button>
+    <button class="mode-tab" id="tab-avails" onclick="setAppMode('avails')">Avails List</button>
   </div>
   <div class="hdr-right">
     <button class="upload-btn" onclick="openUpload()">⬆ Upload Data</button>
@@ -373,6 +422,63 @@ input[type=range]{width:100%;accent-color:var(--red);cursor:pointer}
     </div>
 
   </aside>
+  <aside id="rc-filters">
+    <div>
+      <span class="filter-label">Artist</span>
+      <select class="artist-select" id="rc-artist-select">
+        <option value="">— Select Artist —</option>
+      </select>
+    </div>
+    <hr class="divider">
+    <div>
+      <span class="filter-label">Target Market</span>
+      <div class="prox-wrap">
+        <div class="prox-input-row">
+          <input class="prox-input" id="rc-city" type="text" placeholder="e.g. Nashville, TN" autocomplete="off">
+        </div>
+      </div>
+    </div>
+    <hr class="divider">
+    <div>
+      <span class="filter-label">Radius</span>
+      <div class="guar-wrap">
+        <div class="rc-miles-display" id="rc-miles-display">150 miles</div>
+        <input type="range" id="rc-miles" min="50" max="250" step="50" value="150" oninput="document.getElementById('rc-miles-display').textContent=this.value+' miles'">
+        <div class="range-ends"><span class="range-end">50 mi</span><span class="range-end">250 mi</span></div>
+      </div>
+    </div>
+    <hr class="divider">
+    <div style="display:flex;flex-direction:column;gap:7px">
+      <button class="prox-go" id="rc-go" onclick="runRadiusCheck()">Run Radius Check</button>
+      <div class="prox-status" id="rc-status"></div>
+      <button class="prox-clear" id="rc-clear" onclick="clearRadiusCheck()">✕ Clear radius check</button>
+    </div>
+  </aside>
+  <aside id="avails-filters">
+    <div>
+      <span class="filter-label">Market</span>
+      <input class="prox-input" id="avails-city" type="text" placeholder="e.g. Nashville, TN" autocomplete="off">
+    </div>
+    <hr class="divider">
+    <div>
+      <span class="filter-label">Event Date <span style="font-size:9px;opacity:.5;text-transform:none;letter-spacing:0">(optional)</span></span>
+      <input type="date" class="prox-input" id="avails-date">
+    </div>
+    <hr class="divider">
+    <div>
+      <span class="filter-label">Budget Range <span style="font-size:9px;opacity:.5;text-transform:none;letter-spacing:0">(optional)</span></span>
+      <div class="avails-budget-row">
+        <input class="avails-budget-input" type="number" id="avails-bmin" placeholder="Min $" min="0" step="1000">
+        <span style="color:var(--muted);font-family:'DM Mono',monospace;font-size:11px">–</span>
+        <input class="avails-budget-input" type="number" id="avails-bmax" placeholder="Max $" min="0" step="1000">
+      </div>
+    </div>
+    <hr class="divider">
+    <div style="display:flex;flex-direction:column;gap:7px">
+      <button class="prox-go" id="avails-go" onclick="runAvailsCheck()">Check Avails</button>
+      <div class="prox-status" id="avails-status"></div>
+    </div>
+  </aside>
   <aside class="filters">
     <div>
       <span class="filter-label">Agent</span>
@@ -427,6 +533,20 @@ input[type=range]{width:100%;accent-color:var(--red);cursor:pointer}
     </div>
     <div id="artist-legend" class="legend"></div>
     <div id="rt-legend"></div>
+    <div id="rc-legend"></div>
+    <div id="avails-output">
+      <div class="avails-toolbar">
+        <div style="display:flex;align-items:center">
+          <span class="avails-toolbar-label">Avails Results</span>
+          <span class="avails-summary" id="avails-summary"></span>
+        </div>
+        <div style="display:flex;gap:8px">
+          <button class="avails-copy-btn" id="avails-copy" onclick="copyAvailsText()">⊞ Copy List</button>
+          <button class="avails-close-btn" onclick="clearAvailsOutput()">✕ Close</button>
+        </div>
+      </div>
+      <div class="avails-scroll" id="avails-scroll"></div>
+    </div>
   </div>
 
   <div class="panel" id="panel">
@@ -2276,6 +2396,669 @@ function handleCurrentFile(file){
   };
   file.name.endsWith('.csv') ? reader.readAsText(file) : reader.readAsBinaryString(file);
 }
+</script>
+
+<script>
+// ═══════════════════════════════════════════════════════════════
+//  RADIUS CHECK MODE
+// ═══════════════════════════════════════════════════════════════
+
+let rcMiles        = 150;
+let rcCenter       = null; // {lat, lng, label}
+let rcDrivingDists = {};   // {city+','+state: drivingMiles}
+
+function clearRcMap(){
+  d3.selectAll('#map-g .rc-show-dot, #map-g .rc-center-dot, #map-g .rc-radius-ring').remove();
+  const leg = document.getElementById('rc-legend');
+  if(leg) leg.classList.remove('visible');
+}
+
+function buildRcArtistSelect(){
+  const sel = document.getElementById('rc-artist-select');
+  if(!sel) return;
+  const artists = Object.keys(ARTIST_DATA).sort();
+  const cur = sel.value;
+  sel.innerHTML = '<option value="">— Select Artist —</option>' +
+    artists.map(a => `<option value="${a}"${a===cur?' selected':''}>${a}</option>`).join('');
+}
+
+function drawRcRadiusRing(lat, lng, miles){
+  if(!projFn) return;
+  const g = d3.select('#map-g');
+  if(g.empty()) return;
+  const xy = projFn([lng, lat]);
+  if(!xy) return;
+  const xy2 = projFn([lng, lat + 1]);
+  if(!xy2) return;
+  const pxPerMile = Math.abs(xy[1] - xy2[1]) / 69.0;
+  const rProj = miles * pxPerMile;
+
+  // Radius ring
+  g.append('circle')
+    .attr('class','rc-radius-ring')
+    .attr('cx', xy[0]).attr('cy', xy[1])
+    .attr('r', rProj)
+    .attr('fill','none')
+    .attr('stroke','#39ff14')
+    .attr('stroke-width', 1.5)
+    .attr('stroke-dasharray','6 4')
+    .attr('opacity', 0.65)
+    .style('pointer-events','none');
+
+  // Green center dot with glow
+  g.append('circle')
+    .attr('class','rc-center-dot')
+    .attr('cx', xy[0]).attr('cy', xy[1])
+    .attr('r', 8)
+    .attr('fill','#39ff14')
+    .attr('stroke','#0d0f10')
+    .attr('stroke-width', 1.5)
+    .attr('filter','drop-shadow(0 0 6px #39ff14)')
+    .style('pointer-events','none');
+}
+
+function renderRcDots(artist, center){
+  clearRcMap();
+  if(!projFn) return;
+
+  drawRcRadiusRing(center.lat, center.lng, rcMiles);
+
+  const today = new Date();
+  today.setHours(0,0,0,0);
+
+  const shows = (ARTIST_DATA[artist] || []).filter(s => s.year >= 2026);
+  const g = d3.select('#map-g');
+
+  shows.forEach(show => {
+    const raw = getShowCoordsSync(show.city, show.state);
+    if(!raw) return;
+    const xy = projFn([raw.lng, raw.lat]);
+    if(!xy) return;
+
+    let showDate = null;
+    if(show.date){
+      const parts = show.date.split('/');
+      if(parts.length === 3){
+        showDate = new Date(parseInt(parts[2]), parseInt(parts[0])-1, parseInt(parts[1]));
+        showDate.setHours(0,0,0,0);
+      }
+    }
+
+    const isUpcoming = showDate && showDate >= today;
+    const dotColor   = isUpcoming ? '#E8112D' : '#8a9aa2';
+    const dotOpacity = isUpcoming ? 0.92 : 0.5;
+
+    const fmtAmt  = show.amount && show.amount > 0
+      ? '$'+Math.round(show.amount).toLocaleString() : '—';
+    const fmtDate = show.date
+      ? (([m,d,y]) => new Date(`${y}-${m}-${d}T12:00:00`).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}))(show.date.split('/'))
+      : '—';
+    const cityKey    = show.city+','+show.state;
+    const drivingRaw = rcDrivingDists[cityKey];
+    const distMiles  = drivingRaw != null ? Math.round(drivingRaw) : Math.round(haversineMiles(center.lat, center.lng, raw.lat, raw.lng));
+    const distLabel  = drivingRaw != null ? distMiles+' driving mi' : '~'+distMiles+' mi (est.)';
+
+    g.append('circle')
+      .attr('class','rc-show-dot')
+      .attr('cx', xy[0]).attr('cy', xy[1])
+      .attr('r', 6.25)
+      .attr('fill', dotColor)
+      .attr('opacity', dotOpacity)
+      .attr('stroke','#0d0f10')
+      .attr('stroke-width', 1)
+      .attr('data-show', JSON.stringify({
+        date:fmtDate, venue:show.venue, amount:fmtAmt,
+        city:show.city, state:show.state, year:show.year,
+        buyer:show.buyer||'', isUpcoming, distLabel
+      }))
+      .on('mouseenter', function(event){
+        moveTT(event);
+        const d = JSON.parse(this.getAttribute('data-show'));
+        const fill = this.getAttribute('fill');
+        const tt = document.getElementById('tt');
+        tt.innerHTML =
+          '<div class="tt-name">'+d.venue+'</div>'+
+          '<div class="tt-count">'+d.city+', '+d.state+'</div>'+
+          '<div class="tt-count" style="font-family:DM Mono,monospace;font-size:11px;color:var(--muted)">'+d.date+'</div>'+
+          '<div class="tt-count" style="color:'+fill+';font-family:DM Mono,monospace;font-size:11px">⟡ '+d.amount+'</div>'+
+          (d.buyer ? '<div class="tt-hint">'+d.buyer+'</div>' : '')+
+          '<div class="tt-hint" style="font-family:DM Mono,monospace;font-size:11px;color:var(--muted);margin-top:3px">⇔ '+d.distLabel+' from target</div>'+
+          '<div class="tt-hint" style="color:'+(d.isUpcoming?'#E8112D':'#8a9aa2')+';margin-top:2px">'+
+            (d.isUpcoming ? '● Upcoming' : '○ Past 2026')+'</div>';
+        tt.style.display='block';
+        d3.select(this).attr('r',9).attr('opacity',1);
+      })
+      .on('mousemove', function(event){ moveTT(event); })
+      .on('mouseleave', function(){
+        hideTT();
+        d3.select(this).attr('r',6.25).attr('opacity', isUpcoming ? 0.92 : 0.5);
+      });
+  });
+
+  updateRcLegend(artist, center);
+}
+
+function updateRcLegend(artist, center){
+  const leg = document.getElementById('rc-legend');
+  if(!leg) return;
+  leg.innerHTML =
+    '<div class="rc-leg-title">'+artist+'</div>'+
+    '<div class="rc-leg-row"><span class="rc-leg-dot" style="background:#E8112D"></span>Upcoming show</div>'+
+    '<div class="rc-leg-row"><span class="rc-leg-dot" style="background:#8a9aa2"></span>Past 2026 show</div>'+
+    '<div class="rc-leg-row"><span class="rc-leg-dot" style="background:#39ff14;box-shadow:0 0 4px #39ff14"></span>'+center.label+' ('+rcMiles+' mi)</div>';
+  leg.classList.add('visible');
+}
+
+async function runRadiusCheck(){
+  const artist  = document.getElementById('rc-artist-select').value;
+  const cityVal = document.getElementById('rc-city').value.trim();
+  const status  = document.getElementById('rc-status');
+  const btn     = document.getElementById('rc-go');
+
+  if(!artist){
+    status.textContent='Select an artist first';
+    status.className='prox-status err'; return;
+  }
+  if(!cityVal){
+    status.textContent='Enter a city (e.g. Nashville, TN)';
+    status.className='prox-status err'; return;
+  }
+
+  btn.disabled=true;
+  status.textContent='Locating…';
+  status.className='prox-status loading';
+
+  rcMiles = parseInt(document.getElementById('rc-miles').value) || 150;
+  document.getElementById('rc-miles-display').textContent = rcMiles+' miles';
+
+  try{
+    rcCenter = await geocodeCity(cityVal);
+    status.textContent='Fetching driving distances…';
+    status.className='prox-status loading';
+    const rcShows = (ARTIST_DATA[artist]||[]).filter(s=>s.year>=2026);
+    try{
+      rcDrivingDists = await osrmTableCall(rcCenter, rcShows);
+    }catch(e2){
+      console.warn('OSRM unavailable, using straight-line fallback:', e2.message);
+      rcDrivingDists = {};
+    }
+    status.textContent='✓ '+rcCenter.label;
+    status.className='prox-status ok';
+    document.getElementById('rc-clear').classList.add('visible');
+    renderRcDots(artist, rcCenter);
+  } catch(e){
+    status.textContent='✕ '+e.message;
+    status.className='prox-status err';
+    rcCenter=null;
+  } finally{
+    btn.disabled=false;
+  }
+}
+
+function clearRadiusCheck(){
+  rcCenter=null;
+  rcDrivingDists={};
+  clearRcMap();
+  document.getElementById('rc-status').textContent='';
+  document.getElementById('rc-status').className='prox-status';
+  document.getElementById('rc-city').value='';
+  document.getElementById('rc-clear').classList.remove('visible');
+}
+
+// ── Patch setAppMode to handle 'radius' ──────────────────────────────────
+const _setAppModeBeforeRc = setAppMode;
+setAppMode = function(mode){
+  _setAppModeBeforeRc(mode);
+
+  const tabRadius = document.getElementById('tab-radius');
+  const rcFilters = document.getElementById('rc-filters');
+  if(tabRadius) tabRadius.classList.toggle('active', mode==='radius');
+  if(rcFilters) rcFilters.classList.toggle('visible', mode==='radius');
+
+  if(mode==='radius'){
+    buildRcArtistSelect();
+    d3.selectAll('#map-g .state-path')
+      .style('pointer-events','none')
+      .attr('fill','#ffffff')
+      .attr('stroke','#E8112D')
+      .attr('stroke-width', 0.5)
+      .classed('clickable',false)
+      .classed('active',false);
+    if(typeof drawStateLabels === 'function') drawStateLabels();
+    if(rcCenter){
+      const artist = document.getElementById('rc-artist-select').value;
+      if(artist) renderRcDots(artist, rcCenter);
+    }
+  } else {
+    clearRcMap();
+  }
+};
+
+// ── Suppress state-path tooltip in radius mode ───────────────────────────
+const _origShowTTRc = showTT;
+showTT = function(event, code, n){
+  if(appMode==='radius'){ hideTT(); return; }
+  _origShowTTRc(event, code, n);
+};
+
+// ── Keep RC dropdown in sync when artist data is uploaded ─────────────────
+const _origBuildArtistSelectRc = buildArtistSelect;
+buildArtistSelect = function(){
+  _origBuildArtistSelectRc();
+  buildRcArtistSelect();
+};
+
+// Initial population
+buildRcArtistSelect();
+</script>
+
+<script>
+// ═══════════════════════════════════════════════════════════════
+//  AVAILS LIST MODE
+// ═══════════════════════════════════════════════════════════════
+
+const AVAILS_ARTISTS = [
+  { name:'Trace Adkins',                           min:100000, max:250000 },
+  { name:'John Anderson',                          min:50000,  max:100000 },
+  { name:'Sawyer Brown',                           min:50000,  max:100000 },
+  { name:'Terri Clark',                            min:30000,  max:50000  },
+  { name:'Confederate Railroad',                   min:10000,  max:20000  },
+  { name:'Davisson Brothers Band',                 min:5000,   max:15000  },
+  { name:'Billy Dean',                             min:7500,   max:30000  },
+  { name:'Exile',                                  min:20000,  max:35000  },
+  { name:'Lee Greenwood',                          min:50000,  max:100000 },
+  { name:'The Kentucky Headhunters',               min:20000,  max:40000  },
+  { name:'Lonestar',                               min:40000,  max:75000  },
+  { name:'Montgomery Gentry ft. Eddie Montgomery', min:25000,  max:50000  },
+  { name:'Collin Raye',                            min:25000,  max:50000  },
+  { name:'Aaron Tippin',                           min:25000,  max:50000  },
+  { name:'Phil Vassar',                            min:30000,  max:50000  }
+];
+
+// Rules
+const RADIUS_MILES       = 150;  // straight-line (industry standard for radius clauses)
+const MILES_PER_DAY      = 600;  // max driving miles an artist can do in one day
+const ROUTED_DAYS        = 1;    // calDaysDiff = 1: show day before or after event (0 days off)
+const ROUTABLE_MIN_DAYS  = 2;    // calDaysDiff 2 = 1 free day  → max 1200 mi (600×2)
+const ROUTABLE_MAX_DAYS  = 3;    // calDaysDiff 3 = 2 free days → max 1800 mi (600×3)
+const NEARBY_DAYS        = 3;    // annotate ALL shows within 3 calendar days of event
+// Max travel miles = calDaysDiff × MILES_PER_DAY
+//   calDaysDiff 1 → 600 mi  (ROUTED)
+//   calDaysDiff 2 → 1200 mi (ROUTABLE, 1 day off)
+//   calDaysDiff 3 → 1800 mi (ROUTABLE, 2 days off)
+
+function fmtGuar(n){
+  if(n >= 1000) return '$'+(n/1000 % 1 === 0 ? n/1000 : (n/1000).toFixed(1))+'K';
+  return '$'+n.toLocaleString();
+}
+function fmtGuarRange(min, max){ return fmtGuar(min)+'–'+fmtGuar(max); }
+
+let availsLastResult = null;
+
+async function runAvailsCheck(){
+  const cityVal  = document.getElementById('avails-city').value.trim();
+  const statusEl = document.getElementById('avails-status');
+  const btn      = document.getElementById('avails-go');
+
+  if(!cityVal){
+    statusEl.textContent='Enter a market city first';
+    statusEl.className='prox-status err'; return;
+  }
+
+  btn.disabled=true;
+  statusEl.textContent='Locating city…';
+  statusEl.className='prox-status loading';
+
+  let center;
+  try{ center = await geocodeCity(cityVal); }
+  catch(e){
+    statusEl.textContent='✕ '+e.message;
+    statusEl.className='prox-status err';
+    btn.disabled=false; return;
+  }
+
+  const dateVal     = document.getElementById('avails-date').value;
+  const bMinRaw     = document.getElementById('avails-bmin').value;
+  const bMaxRaw     = document.getElementById('avails-bmax').value;
+  const hasBudget   = bMinRaw !== '' || bMaxRaw !== '';
+  const budgetMin   = bMinRaw !== '' ? parseInt(bMinRaw) : 0;
+  const budgetMax   = bMaxRaw !== '' ? parseInt(bMaxRaw) : Infinity;
+  const targetDate  = dateVal ? new Date(dateVal+'T12:00:00') : null;
+  // midnight version for calendar-day comparisons
+  const targetMid   = targetDate ? new Date(targetDate.getFullYear(), targetDate.getMonth(), targetDate.getDate()) : null;
+
+  const today = new Date(); today.setHours(0,0,0,0);
+
+  // ── Batch-fetch OSRM driving distances for all unique upcoming show cities ─
+  statusEl.textContent='Fetching driving distances…';
+  statusEl.className='prox-status loading';
+  const allCandidateShows = [];
+  const seenCityKeys = new Set();
+  for(const a of AVAILS_ARTISTS){
+    if(hasBudget && (a.max < budgetMin || a.min > budgetMax)) continue;
+    for(const s of (ARTIST_DATA[a.name]||[])){
+      const key = s.city+','+s.state;
+      if(!seenCityKeys.has(key)){ seenCityKeys.add(key); allCandidateShows.push(s); }
+    }
+  }
+  let drivingCache = {};
+  try{ drivingCache = await osrmTableCall(center, allCandidateShows); }
+  catch(e){ console.warn('OSRM unavailable, using haversine×1.25 fallback:', e.message); }
+
+  statusEl.textContent='Checking artists…';
+
+  const available  = [];
+  const booked     = [];   // already has a show on the event date
+  const conflicted = [];
+
+  for(const artist of AVAILS_ARTISTS){
+    if(hasBudget && (artist.max < budgetMin || artist.min > budgetMax)) continue;
+
+    const allShows = ARTIST_DATA[artist.name] || [];
+
+    // Parse + enrich upcoming shows
+    const upcoming = allShows
+      .filter(s => {
+        if(!s.date) return false;
+        const [m,d,y] = s.date.split('/');
+        const sd = new Date(+y,+m-1,+d); sd.setHours(0,0,0,0);
+        return sd >= today;
+      })
+      .map(s => {
+        const [m,d,y] = s.date.split('/');
+        const sd = new Date(+y,+m-1,+d); sd.setHours(0,0,0,0);
+        const coords      = getShowCoordsSync(s.city, s.state);
+        // straight-line for radius clause
+        const dist        = coords ? Math.round(haversineMiles(center.lat, center.lng, coords.lat, coords.lng)) : null;
+        // driving miles for routing (OSRM or haversine×1.25 fallback)
+        const cityKey     = s.city+','+s.state;
+        const rawDriving  = drivingCache[cityKey];
+        const drivingDist = rawDriving != null ? Math.round(rawDriving)
+                          : dist !== null      ? Math.round(dist * 1.25) : null;
+        // integer calendar days between show and event (for routing)
+        const calDaysDiff  = targetMid ? Math.round(Math.abs(sd - targetMid) / 864e5) : null;
+        const showIsBefore = targetMid ? sd < targetMid : null;
+        const fmtDate      = sd.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
+        return {...s, showDate:sd, dist, drivingDist, calDaysDiff, showIsBefore, fmtDate};
+      });
+
+    // ── Booked on event date — include in red section ─────────────────────
+    if(targetMid){
+      const bookedShow = upcoming.find(s => s.calDaysDiff === 0);
+      if(bookedShow){ booked.push({artist, bookedShow}); continue; }
+    }
+
+    // ── Radius conflict: any upcoming show within 150 mi (straight-line) ──
+    const conflict = upcoming.find(s => s.dist !== null && s.dist <= RADIUS_MILES);
+    if(conflict){ conflicted.push({artist, conflict}); continue; }
+
+    // ── Routing pool: shows other than the event date ─────────────────────
+    const routingPool = upcoming.filter(s => s.calDaysDiff === null || s.calDaysDiff > 0);
+
+    // ── Routing status ────────────────────────────────────────────────────
+    let artistStatus = 'available';
+    let routeShows   = [];
+
+    if(targetMid){
+      // Tag every show within NEARBY_DAYS calendar days with a routeStatus
+      const nearby = routingPool
+        .filter(s => s.calDaysDiff !== null && s.calDaysDiff <= NEARBY_DAYS)
+        .map(s => {
+          let routeStatus;
+          const maxMiles = s.calDaysDiff * MILES_PER_DAY; // 600 per available travel day
+          if(s.drivingDist === null){
+            routeStatus = 'unknown'; // no distance data — benefit of the doubt
+          } else if(s.calDaysDiff <= ROUTED_DAYS && s.drivingDist <= maxMiles){
+            routeStatus = 'routed';
+          } else if(s.calDaysDiff >= ROUTABLE_MIN_DAYS && s.calDaysDiff <= ROUTABLE_MAX_DAYS
+                  && s.drivingDist <= maxMiles){
+            routeStatus = 'routable';
+          } else {
+            routeStatus = 'noted'; // within 3 days but drive is physically impossible
+          }
+          return {...s, routeStatus, maxMiles};
+        });
+
+      // Any show with an impossible drive makes the artist unavailable
+      const blockingShows = nearby.filter(s => s.routeStatus === 'noted');
+      if(blockingShows.length > 0){
+        conflicted.push({artist, blockingShows, conflictType: 'drive'});
+        continue;
+      }
+
+      routeShows = nearby.filter(s => s.routeStatus !== 'unknown');
+      if(nearby.some(s => s.routeStatus==='routed'))        artistStatus = 'routed';
+      else if(nearby.some(s => s.routeStatus==='routable')) artistStatus = 'routable';
+    } else {
+      // No event date — geographic proximity only (use 1-day cap for routed, 2-day for routable)
+      const routedGeo   = routingPool.filter(s => s.drivingDist!==null && s.drivingDist <= MILES_PER_DAY);
+      const routableGeo = routingPool.filter(s => s.drivingDist!==null && s.drivingDist <= MILES_PER_DAY * 2);
+      if(routedGeo.length){
+        artistStatus = 'routed';
+        routeShows   = routedGeo.map(s => ({...s, routeStatus:'routed', maxMiles: MILES_PER_DAY}));
+      } else if(routableGeo.length){
+        artistStatus = 'routable';
+        routeShows   = routableGeo.map(s => ({...s, routeStatus:'routable', maxMiles: MILES_PER_DAY * 2}));
+      }
+    }
+
+    available.push({artist, artistStatus, routeShows, hasData: allShows.length>0});
+  }
+
+  // Sort available: routed → routable → available → no-data
+  available.sort((a,b)=>{
+    const order = {routed:0, routable:1, available:2};
+    const ao = a.hasData ? (order[a.artistStatus] ?? 2) : 99;
+    const bo = b.hasData ? (order[b.artistStatus] ?? 2) : 99;
+    return ao - bo;
+  });
+
+  statusEl.textContent='✓ '+center.label;
+  statusEl.className='prox-status ok';
+  btn.disabled=false;
+
+  availsLastResult = {available, booked, conflicted, center, targetDate, budgetMin, budgetMax, hasBudget, bMinRaw, bMaxRaw};
+  renderAvailsResults();
+  document.getElementById('avails-output').classList.add('visible');
+}
+
+function renderAvailsResults(){
+  if(!availsLastResult) return;
+  const {available, booked, conflicted, center, targetDate, budgetMin, budgetMax, hasBudget} = availsLastResult;
+
+  const dateStr   = targetDate
+    ? targetDate.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}) : null;
+  const budgetStr = hasBudget
+    ? fmtGuar(budgetMin)+(budgetMax===Infinity ? '+' : '–'+fmtGuar(budgetMax)) : null;
+
+  const dayDir = (s) => {
+    if(s.calDaysDiff === null) return '';
+    const n = s.calDaysDiff;
+    if(n === 0) return ' · same day';
+    const dir = s.showIsBefore ? 'before' : 'after';
+    return ' · '+n+' day'+(n!==1?'s':'')+' '+dir;
+  };
+
+  let html = '';
+
+  // Meta header
+  html += '<div class="avails-meta">';
+  html += '<span class="avails-meta-city">'+center.label+'</span>';
+  if(dateStr)   html += '<span>· '+dateStr+'</span>';
+  if(budgetStr) html += '<span>· Budget: '+budgetStr+'</span>';
+  html += '</div>';
+
+  // ── Available ────────────────────────────────────────────────
+  if(available.length){
+    html += '<div class="avails-section-head">'+available.length+' Artist'+(available.length!==1?'s':'')+' Available</div>';
+    for(const {artist, artistStatus, routeShows, hasData} of available){
+      html += '<div class="avails-item">';
+      html += '<div class="avails-name">'+artist.name
+            + '<span class="avails-guar">'+fmtGuarRange(artist.min,artist.max)+'</span></div>';
+
+      if(!hasData){
+        html += '<div class="avails-status-line avails-nodata">No tour data on file</div>';
+      } else {
+        const visibleShows = routeShows.filter(s => s.routeStatus !== 'noted');
+        if(visibleShows.length > 0){
+          visibleShows.forEach((s,i) => {
+            const cls   = s.routeStatus==='routed' ? 'avails-routed' : 'avails-routable';
+            const label = s.routeStatus==='routed' ? '★ ROUTED' : '◈ ROUTABLE';
+            const dist  = s.drivingDist !== null ? s.drivingDist+' driving mi' : '~'+s.dist+' mi straight-line';
+            html += '<div class="avails-status-line '+cls+(i>0?' avails-sub':'')+'">'
+                 + label+' — '+s.fmtDate+' in '+s.city+', '+s.state
+                 +' ('+dist+dayDir(s)+')</div>';
+          });
+        } else {
+          html += '<div class="avails-status-line avails-ok">✓ Available</div>';
+        }
+      }
+      html += '</div>';
+    }
+  }
+
+  // ── Already booked on event date ──────────────────────────────
+  if(booked.length){
+    html += '<div class="avails-section-head avails-conflict-head">'
+          + booked.length+' Already Booked on This Date</div>';
+    for(const {artist, bookedShow} of booked){
+      html += '<div class="avails-item">';
+      html += '<div class="avails-name avails-err">'+artist.name
+            + '<span class="avails-guar">'+fmtGuarRange(artist.min,artist.max)+'</span></div>';
+      html += '<div class="avails-status-line avails-err">✗ BOOKED — '
+            + bookedShow.fmtDate+' · '+bookedShow.venue+' in '+bookedShow.city+', '+bookedShow.state+'</div>';
+      html += '</div>';
+    }
+  }
+
+  // ── Conflicts (radius + impossible drive) ────────────────────
+  if(conflicted.length){
+    html += '<div class="avails-section-head avails-conflict-head">'
+          + conflicted.length+' Conflict'+(conflicted.length!==1?'s':'')+' — Cannot Book</div>';
+    for(const {artist, conflict, blockingShows, conflictType} of conflicted){
+      html += '<div class="avails-item">';
+      html += '<div class="avails-name avails-err">'+artist.name
+            + '<span class="avails-guar">'+fmtGuarRange(artist.min,artist.max)+'</span></div>';
+      if(conflictType === 'drive'){
+        blockingShows.forEach(s => {
+          const dir = s.showIsBefore ? 'day before' : 'day after';
+          const days = s.calDaysDiff === 1 ? '1 '+dir
+                     : s.calDaysDiff+' days '+(s.showIsBefore ? 'before' : 'after');
+          html += '<div class="avails-status-line avails-err">✗ DRIVE CONFLICT — '
+                + s.fmtDate+' in '+s.city+', '+s.state
+                + ' ('+s.drivingDist+' driving mi · '+days+')</div>';
+        });
+      } else {
+        html += '<div class="avails-status-line avails-err">✗ RADIUS CONFLICT — '
+              + conflict.fmtDate+' in '+conflict.city+', '+conflict.state
+              + ' ('+conflict.dist+' mi from target)</div>';
+      }
+      html += '</div>';
+    }
+  }
+
+  if(!available.length && !booked.length && !conflicted.length){
+    html += '<div class="empty"><h3>No artists match that budget range</h3></div>';
+  }
+
+  document.getElementById('avails-scroll').innerHTML = html;
+  document.getElementById('avails-summary').textContent =
+    available.length+' available · '+(booked.length+conflicted.length)+' unavailable';
+}
+
+function generateAvailsText(){
+  if(!availsLastResult) return '';
+  const {available, booked, conflicted, center, targetDate, budgetMin, budgetMax, hasBudget} = availsLastResult;
+
+  const now     = new Date().toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
+  const dateStr = targetDate
+    ? targetDate.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}) : null;
+  const budgetStr = hasBudget
+    ? fmtGuar(budgetMin)+(budgetMax===Infinity?'+':'–'+fmtGuar(budgetMax)) : null;
+
+  const lines = [];
+  lines.push('AVAILS CHECK — '+center.label);
+  if(dateStr)   lines.push('Date: '+dateStr);
+  if(budgetStr) lines.push('Budget: '+budgetStr);
+  lines.push('Generated: '+now);
+  lines.push('');
+
+  // Available only — name + routing tag if applicable, no details
+  if(available.length){
+    lines.push('AVAILABLE:');
+    for(const {artist, routeShows} of available){
+      const visibleShows = (routeShows || []).filter(s => s.routeStatus !== 'noted');
+      if(visibleShows.length === 0){
+        lines.push(artist.name);
+      } else {
+        // Determine best tag (routed beats routable)
+        const bestTag = visibleShows.some(s => s.routeStatus==='routed') ? 'ROUTED' : 'ROUTABLE';
+        lines.push(artist.name+' — '+bestTag);
+      }
+    }
+  }
+
+  return lines.join('\n');
+}
+
+async function copyAvailsText(){
+  const text = generateAvailsText();
+  if(!text) return;
+  const btn = document.getElementById('avails-copy');
+  try{
+    await navigator.clipboard.writeText(text);
+    const orig = btn.textContent;
+    btn.textContent='✓ Copied!';
+    setTimeout(()=>btn.textContent=orig, 1800);
+  }catch(e){
+    // Fallback: select a textarea
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.cssText = 'position:fixed;opacity:0';
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    const orig = btn.textContent;
+    btn.textContent='✓ Copied!';
+    setTimeout(()=>btn.textContent=orig, 1800);
+  }
+}
+
+function clearAvailsOutput(){
+  document.getElementById('avails-output').classList.remove('visible');
+}
+
+// ── Patch setAppMode for 'avails' ──────────────────────────────
+const _setAppModeBeforeAvails = setAppMode;
+setAppMode = function(mode){
+  _setAppModeBeforeAvails(mode);
+
+  const tabAvails = document.getElementById('tab-avails');
+  const avFilters = document.getElementById('avails-filters');
+  if(tabAvails) tabAvails.classList.toggle('active', mode==='avails');
+  if(avFilters) avFilters.classList.toggle('visible', mode==='avails');
+
+  if(mode==='avails'){
+    d3.selectAll('#map-g .state-path')
+      .style('pointer-events','none')
+      .attr('fill','#ffffff')
+      .attr('stroke','#E8112D')
+      .attr('stroke-width', 0.5)
+      .classed('clickable',false)
+      .classed('active',false);
+    if(typeof drawStateLabels==='function') drawStateLabels();
+  } else {
+    clearAvailsOutput();
+  }
+};
+
+// Suppress state tooltip in avails mode
+const _origShowTTAv = showTT;
+showTT = function(event, code, n){
+  if(appMode==='avails'){ hideTT(); return; }
+  _origShowTTAv(event, code, n);
+};
 </script>
 
 </body>
