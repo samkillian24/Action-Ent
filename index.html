@@ -959,30 +959,39 @@ function haversineMiles(lat1, lng1, lat2, lng2){
 
 // US city → lat/lng via Nominatim (no key needed)
 async function geocodeCity(query){
-  // Offline lookup — parse "City, ST" format
   const q=query.trim();
   const parts=q.split(',').map(s=>s.trim());
-  if(parts.length>=2){
-    const city=parts.slice(0,-1).join(', ');
-    const state=parts[parts.length-1].toUpperCase().substring(0,2);
-    const key=city+','+state;
-    if(CITY_COORDS[key]) return Promise.resolve({lat:CITY_COORDS[key].lat,lng:CITY_COORDS[key].lng,label:city+', '+state});
-    // Try case-insensitive match
-    const keyLow=key.toLowerCase();
-    for(const k of Object.keys(CITY_COORDS)){
-      if(k.toLowerCase()===keyLow) return Promise.resolve({lat:CITY_COORDS[k].lat,lng:CITY_COORDS[k].lng,label:city+', '+state});
-    }
-    // Try just city name anywhere in dataset with matching state
-    for(const k of Object.keys(CITY_COORDS)){
-      const [kCity,kState]=k.split(',');
-      if(kState===state&&kCity.toLowerCase()===city.toLowerCase())
-        return Promise.resolve({lat:CITY_COORDS[k].lat,lng:CITY_COORDS[k].lng,label:city+', '+state});
-    }
-    // State centroid fallback
-    const sc=STATE_CENTROIDS[state];
-    if(sc) return Promise.resolve({lat:sc.lat,lng:sc.lng,label:state+' (state center)'});
+  if(parts.length<2) return Promise.reject(new Error('Try "City, ST" format (e.g. Nashville, TN)'));
+  const city=parts.slice(0,-1).join(', ');
+  const state=parts[parts.length-1].toUpperCase().substring(0,2);
+  const label=city+', '+state;
+
+  // Always call Nominatim first — static table has approx/wrong entries (5s timeout)
+  try{
+    const url='https://nominatim.openstreetmap.org/search?q='
+      +encodeURIComponent(city+', '+state+', USA')
+      +'&format=json&limit=1&countrycodes=us';
+    const ctrl=new AbortController();
+    const tid=setTimeout(()=>ctrl.abort(),5000);
+    const r=await fetch(url,{headers:{'Accept':'application/json'},signal:ctrl.signal});
+    clearTimeout(tid);
+    const d=await r.json();
+    if(d&&d.length>0) return {lat:parseFloat(d[0].lat),lng:parseFloat(d[0].lon),label};
+  }catch(e){}
+
+  // Offline fallback — only use precise (non-approx) static entries
+  const key=city+','+state;
+  const c=CITY_COORDS[key];
+  if(c&&!c.approx) return {lat:c.lat,lng:c.lng,label};
+  const keyLow=key.toLowerCase();
+  for(const k of Object.keys(CITY_COORDS)){
+    if(k.toLowerCase()===keyLow&&!CITY_COORDS[k].approx) return {lat:CITY_COORDS[k].lat,lng:CITY_COORDS[k].lng,label};
   }
-  return Promise.reject(new Error('City not found — try "City, ST" format (e.g. Hinton, OK)'));
+
+  // State centroid last resort
+  const sc=STATE_CENTROIDS[state];
+  if(sc) return {lat:sc.lat,lng:sc.lng,label:state+' (approx)'};
+  return Promise.reject(new Error('City not found — try "City, ST" format (e.g. Nashville, TN)'));
 }
 
 // Venue coords lookup (city+state → lat/lng via Nominatim, cached)
@@ -2744,6 +2753,8 @@ async function runAvailsCheck(){
       if(!seenCityKeys.has(key)){ seenCityKeys.add(key); allCandidateShows.push(s); }
     }
   }
+  // ── Batch-fetch OSRM driving distances ──
+  statusEl.textContent='Fetching driving distances…';
   let drivingCache = {};
   try{ drivingCache = await osrmTableCall(center, allCandidateShows); }
   catch(e){ console.warn('OSRM unavailable, using haversine×1.25 fallback:', e.message); }
@@ -2964,31 +2975,19 @@ function renderAvailsResults(){
     html += '<div class="empty"><h3>No artists match that budget range</h3></div>';
   }
 
-  document.getElementById('avails-scroll').innerHTML = html;
+  document.getElementById('avails-scroll').innerHTML =
+    '<div style="max-width:580px;margin:0 auto;width:100%;box-sizing:border-box">'+html+'</div>';
   document.getElementById('avails-summary').textContent =
     available.length+' available · '+(booked.length+conflicted.length)+' unavailable';
 }
 
 function generateAvailsText(){
   if(!availsLastResult) return '';
-  const {available, booked, conflicted, center, targetDate, budgetMin, budgetMax, hasBudget} = availsLastResult;
-
-  const now     = new Date().toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
-  const dateStr = targetDate
-    ? targetDate.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}) : null;
-  const budgetStr = hasBudget
-    ? fmtGuar(budgetMin)+(budgetMax===Infinity?'+':'–'+fmtGuar(budgetMax)) : null;
-
+  const {available} = availsLastResult;
   const lines = [];
-  lines.push('AVAILS CHECK — '+center.label);
-  if(dateStr)   lines.push('Date: '+dateStr);
-  if(budgetStr) lines.push('Budget: '+budgetStr);
-  lines.push('Generated: '+now);
-  lines.push('');
 
   // Available only — name + routing tag if applicable, no details
   if(available.length){
-    lines.push('AVAILABLE:');
     for(const {artist, routeShows} of available){
       const visibleShows = (routeShows || []).filter(s => s.routeStatus !== 'noted');
       if(visibleShows.length === 0){
