@@ -2521,8 +2521,8 @@ async function runAvailsCheck(){
       if(bookedShow){ booked.push({artist, bookedShow}); continue; }
     }
 
-    // ── Radius conflict: any upcoming show within 150 mi (straight-line) ──
-    const conflict = upcoming.find(s => s.dist !== null && s.dist <= RADIUS_MILES);
+    // ── Radius conflict: any upcoming show within 150 mi (driving distance) ──
+    const conflict = upcoming.find(s => s.drivingDist !== null && s.drivingDist <= RADIUS_MILES);
     if(conflict){ conflicted.push({artist, conflict}); continue; }
 
     // ── Routing pool: shows other than the event date ─────────────────────
@@ -2684,7 +2684,7 @@ function renderAvailsResults(){
       } else {
         html += '<div class="avails-status-line avails-err">✗ RADIUS CONFLICT — '
               + conflict.fmtDate+' in '+conflict.city+', '+conflict.state
-              + ' ('+conflict.dist+' mi from target)</div>';
+              + ' ('+conflict.drivingDist+' driving mi from target)</div>';
       }
       html += '</div>';
     }
