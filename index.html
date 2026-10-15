@@ -2349,9 +2349,6 @@ const AVAILS_ARTISTS = [
   { name:'Trace Adkins',                           min:85000,  max:500000 },
   { name:'John Anderson',                          min:40000,  max:100000 },
   { name:'Sawyer Brown',                           min:40000,  max:100000 },
-  { name:'Billy Bob Thornton & The Boxmasters',    min:20000,  max:100000 },
-  { name:'Bill Murray & His Blood Brothers',       min:65000,  max:150000 },
-  { name:'CHINGY',                                 min:25000,  max:50000  },
   { name:'Terri Clark',                            min:75000,  max:100000 },
   { name:'Confederate Railroad',                   min:10000,  max:25000  },
   { name:'Davisson Brothers Band',                 min:5000,   max:15000  },
@@ -2428,6 +2425,10 @@ async function runAvailsCheck(){
   for(const a of AVAILS_ARTISTS){
     if(hasBudget && (a.max < budgetMin || a.min > budgetMax)) continue;
     for(const s of (ARTIST_DATA[a.name]||[])){
+      if(!s.date) continue;
+      const [sm,sd_,sy] = s.date.split('/');
+      const sd0 = new Date(+sy,+sm-1,+sd_); sd0.setHours(0,0,0,0);
+      if(sd0 < today) continue;   // skip past shows — only upcoming dates matter
       const key = s.city+','+s.state;
       if(!seenCityKeys.has(key)){ seenCityKeys.add(key); allCandidateShows.push(s); }
     }
