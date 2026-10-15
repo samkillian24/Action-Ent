@@ -234,6 +234,7 @@ input[type=date].prox-input{color-scheme:dark}
 .avails-noted{color:#9ca3af}
 .avails-nodata{color:#9ca3af;font-style:italic}
 .avails-err{color:#dc2626}
+.avails-radius-soft{background:#fef08a;color:#dc2626;border-radius:3px;padding:1px 4px}
 .avails-sub{font-family:"DM Mono",monospace;font-size:10px;color:#9ca3af;margin-top:2px}
 
 /* ── Routing Mode ─────────────────────────────────────────────────────────── */
@@ -2638,7 +2639,7 @@ function renderAvailsResults(){
             const cls   = s.routeStatus==='routed' ? 'avails-routed' : 'avails-routable';
             const label = s.routeStatus==='routed' ? '★ ROUTED' : '◈ ROUTABLE';
             const dist  = s.drivingDist !== null ? s.drivingDist+' driving mi' : '~'+s.dist+' mi straight-line';
-            html += '<div class="avails-status-line '+cls+(i>0?' avails-sub':'')+'">'
+            html += '<div class="avails-status-line '+cls+'">'
                  + label+' — '+s.fmtDate+' in '+s.city+', '+s.state
                  +' ('+dist+dayDir(s)+')</div>';
           });
@@ -2682,9 +2683,14 @@ function renderAvailsResults(){
                 + ' ('+s.drivingDist+' driving mi · '+days+')</div>';
         });
       } else {
+        const distSoft = conflict.drivingDist !== null && conflict.drivingDist >= 80;
+        const distStr  = '('+conflict.drivingDist+' driving mi from target)';
+        const distHtml = distSoft
+          ? '<span class="avails-radius-soft">'+distStr+'</span>'
+          : distStr;
         html += '<div class="avails-status-line avails-err">✗ RADIUS CONFLICT — '
               + conflict.fmtDate+' in '+conflict.city+', '+conflict.state
-              + ' ('+conflict.drivingDist+' driving mi from target)</div>';
+              + ' '+distHtml+'</div>';
       }
       html += '</div>';
     }
