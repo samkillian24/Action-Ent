@@ -2102,13 +2102,35 @@ function clearRcMap(){
   if(leg) leg.classList.remove('visible');
 }
 
+const RC_ARTISTS = [
+  'Aaron Tippin',
+  'Bill Murray & His Blood Brothers',
+  'Billy Bob Thornton & The Boxmasters',
+  'Billy Dean',
+  'CHINGY',
+  'Confederate Railroad',
+  'Collin Raye',
+  'Davisson Brothers Band',
+  'Exile',
+  'Jason Petty',
+  'John Anderson',
+  'Lee Greenwood',
+  'Lonestar',
+  'Montgomery Gentry ft. Eddie Montgomery',
+  'Sawyer Brown',
+  'Terri Clark',
+  'The Kentucky Headhunters',
+  'The Legendary Life of Tom Petty',
+  'TLC',
+  'Trace Adkins',
+];
+
 function buildRcArtistSelect(){
   const sel = document.getElementById('rc-artist-select');
   if(!sel) return;
-  const artists = Object.keys(ARTIST_DATA).sort();
   const cur = sel.value;
   sel.innerHTML = '<option value="">— Select Artist —</option>' +
-    artists.map(a => `<option value="${a}"${a===cur?' selected':''}>${a}</option>`).join('');
+    RC_ARTISTS.map(a => `<option value="${a}"${a===cur?' selected':''}>${a}</option>`).join('');
 }
 
 function drawRcRadiusRing(lat, lng, miles){
