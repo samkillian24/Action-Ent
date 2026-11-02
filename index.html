@@ -202,6 +202,14 @@ input[type=range]{width:100%;accent-color:var(--red);cursor:pointer}
 .avails-form-center{display:flex;align-items:center;justify-content:center;width:100%;padding:24px 20px;box-sizing:border-box}
 .avails-form-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:28px 24px;width:100%;max-width:420px;display:flex;flex-direction:column;gap:16px;box-sizing:border-box}
 .avails-form-title{font-family:"DM Mono",monospace;font-size:11px;text-transform:uppercase;letter-spacing:.2em;color:var(--muted);text-align:center;margin-bottom:2px}
+.avails-date-row{display:flex;gap:6px;align-items:center}
+.avails-date-row .prox-input{flex:1;min-width:0}
+.avails-date-sep{color:var(--muted);font-family:'DM Mono',monospace;font-size:11px;flex-shrink:0}
+.avails-date-end-label{font-size:9px;opacity:.45;text-transform:none;letter-spacing:0;white-space:nowrap}
+.avails-date-range-row{margin-top:2px;font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:.03em}
+.avails-date-avail{color:#22c55e}
+.avails-date-booked{color:#dc2626}
+.avails-date-drive{color:#f97316}
 .avails-budget-row{display:flex;gap:6px;align-items:center}
 .avails-budget-input{flex:1;background:var(--surface2);border:1px solid var(--border);color:var(--text);padding:7px 9px;border-radius:6px;font-family:"DM Mono",monospace;font-size:11px;outline:none;transition:border-color .15s;-moz-appearance:textfield;min-width:0}
 .avails-budget-input::-webkit-inner-spin-button,.avails-budget-input::-webkit-outer-spin-button{-webkit-appearance:none}
@@ -443,7 +451,12 @@ input[type=date].prox-input{color-scheme:dark}
         </div>
         <div>
           <span class="filter-label">Event Date <span style="font-size:9px;opacity:.5;text-transform:none;letter-spacing:0">(optional)</span></span>
-          <input type="date" class="prox-input" id="avails-date">
+          <div class="avails-date-row">
+            <input type="date" class="prox-input" id="avails-date">
+            <span class="avails-date-sep">→</span>
+            <input type="date" class="prox-input" id="avails-date-end" title="End date (optional range)">
+          </div>
+          <div style="font-size:9px;opacity:.4;font-family:'DM Mono',monospace;margin-top:3px;letter-spacing:.02em">Leave end date blank for a single date</div>
         </div>
         <div>
           <span class="filter-label">Budget Range <span style="font-size:9px;opacity:.5;text-transform:none;letter-spacing:0">(optional)</span></span>
@@ -1284,26 +1297,26 @@ const ARTIST_DATA_2027 = {
   "Lee Greenwood":[{"date":"01/15/2027","year":2027,"venue":"Tampa Bay Rodeo's Bull Bash & Country Music Festival","city":"Dover","state":"FL","amount":60000,"buyer":"Ryan Henning"},{"date":"01/30/2027","year":2027,"venue":"Ocala Bull Bash & Country Music Festival","city":"Ocala","state":"FL","amount":40000,"buyer":"Ryan Henning"},{"date":"04/17/2027","year":2027,"venue":"PRIVATE EVENT","city":"Bonita Springs","state":"FL","amount":50000,"buyer":"Nancy Hays"},{"date":"05/01/2027","year":2027,"venue":"High Point University","city":"High Point","state":"NC","amount":60000,"buyer":"Marideth Riggs"}],
   "Sawyer Brown":[{"date":"01/16/2027","year":2027,"venue":"Carl Perkins Civic Center","city":"Jackson","state":"TN","amount":60000,"buyer":"Mike Farris"},{"date":"01/22/2027","year":2027,"venue":"Island Resort & Casino","city":"Harris","state":"MI","amount":135000,"buyer":"Aaron Green"},{"date":"01/29/2027","year":2027,"venue":"Performing Arts Center at Kent State Tuscarawas","city":"New Philadelphia","state":"OH","amount":50000,"buyer":"David Mitchell"},{"date":"01/30/2027","year":2027,"venue":"Backseat Events","city":"Winchester","state":"VA","amount":50000,"buyer":"Vicky Keane"},{"date":"02/18/2027","year":2027,"venue":"Win River Resort and Casino","city":"Redding","state":"CA","amount":62500,"buyer":"Kelly Moreno"},{"date":"02/19/2027","year":2027,"venue":"Agua Caliente Casino","city":"Rancho Mirage","state":"CA","amount":75000,"buyer":"Joe Moallempour"},{"date":"02/20/2027","year":2027,"venue":"Thunder Valley Casino Resort","city":"Lincoln","state":"CA","amount":70000,"buyer":"Joe Moallempour"},{"date":"02/26/2027","year":2027,"venue":"Country Jam Fest at Big Boy Toyz Expo","city":"Punta Gorda","state":"FL","amount":70000,"buyer":"Brian Turner"},{"date":"03/04/2027","year":2027,"venue":"PRIVATE EVENT (Sunfest by Cavco)","city":"Dominican Republic","state":"DR","amount":100000,"buyer":"Steve Cover"},{"date":"03/13/2027","year":2027,"venue":"Billy Bob's Texas","city":"Fort Worth","state":"TX","amount":50000,"buyer":"Marty Travis"},{"date":"03/19/2027","year":2027,"venue":"The Flying E Ranch","city":"Wickenburg","state":"AZ","amount":65000,"buyer":"Brian Crews"},{"date":"04/02/2027","year":2027,"venue":"The Vine Showroom at del Lago Casino","city":"Waterloo","state":"NY","amount":60000,"buyer":"Lucy Noel"},{"date":"04/23/2027","year":2027,"venue":"Effingham Performance Center","city":"Effingham","state":"IL","amount":50000,"buyer":"Kim Jansen"},{"date":"04/24/2027","year":2027,"venue":"Gas City Performing Arts Center","city":"Gas City","state":"IN","amount":55000,"buyer":"Catherine Mang"},{"date":"05/14/2027","year":2027,"venue":"Shooting Star Casino","city":"Mahnomen","state":"MN","amount":60000,"buyer":"Tom Munsey"},{"date":"05/15/2027","year":2027,"venue":"WinnaVegas Casino Resort","city":"Sloan","state":"IA","amount":50000,"buyer":"Danny Heller"},{"date":"05/29/2027","year":2027,"venue":"The Wharf Amphitheater","city":"Orange Beach","state":"AL","amount":60000,"buyer":"John Ruffino"},{"date":"06/25/2027","year":2027,"venue":"Red Wine & Brew Festival","city":"La Porte","state":"IN","amount":60000,"buyer":"Carey Garwood"},{"date":"06/26/2027","year":2027,"venue":"Oak Grove Racing & Gaming Amphitheater","city":"Oak Grove","state":"KY","amount":55000,"buyer":"Lucy Noel"},{"date":"08/07/2027","year":2027,"venue":"PRIVATE EVENT (For New Cooperative)","city":"Ft. Dodge","state":"IA","amount":60000,"buyer":"Mark Gramm"},{"date":"08/12/2027","year":2027,"venue":"Mercer County Fair","city":"Celina","state":"OH","amount":55000,"buyer":"Clay Campbell"},{"date":"08/14/2027","year":2027,"venue":"Erie County Fair","city":"Hamburg","state":"NY","amount":60000,"buyer":"Aaron Green"},{"date":"09/10/2027","year":2027,"venue":"Brown County Music Center","city":"Nashville","state":"IN","amount":55000,"buyer":"Doug Lefrak"},{"date":"09/11/2027","year":2027,"venue":"Silver Dollar City","city":"Branson","state":"MO","amount":65000,"buyer":"Mike Hefley"},{"date":"09/24/2027","year":2027,"venue":"Northern Quest Resort & Casino","city":"Airway Heights","state":"WA","amount":55000,"buyer":"Matt Gibson"},{"date":"09/25/2027","year":2027,"venue":"Chinook Winds Casino Resort","city":"Lincoln City","state":"OR","amount":75000,"buyer":"Steve Selak"},{"date":"10/16/2027","year":2027,"venue":"The Coyote Store","city":"Gail","state":"TX","amount":60000,"buyer":"Jeff Hudson"}],
   "Confederate Railroad":[{"date":"01/16/2027","year":2027,"venue":"Seminole Casino Hotel Immokalee","city":"Immokalee","state":"FL","amount":13000,"buyer":"Jack Manis"},{"date":"02/18/2027","year":2027,"venue":"Rodgers Theatre","city":"Poplar Bluff","state":"MO","amount":10000,"buyer":"Dustin Knowlton"},{"date":"02/19/2027","year":2027,"venue":"Ottawa Memorial Auditorium","city":"Ottawa","state":"KS","amount":10000,"buyer":"Dustin Knowlton"},{"date":"02/20/2027","year":2027,"venue":"The Aud","city":"Eureka Springs","state":"AR","amount":10000,"buyer":"Dustin Knowlton"},{"date":"02/26/2027","year":2027,"venue":"The Maryland Theatre","city":"Hagerstown","state":"MD","amount":10000,"buyer":"Dustin Knowlton"},{"date":"02/27/2027","year":2027,"venue":"Robinson Grand Performing Arts Center","city":"Clarksburg","state":"WV","amount":10000,"buyer":"Dustin Knowlton"},{"date":"03/05/2027","year":2027,"venue":"Rhythm and Ribs BBQ Festival","city":"Tifton","state":"GA","amount":12500,"buyer":"Haley Fort"},{"date":"04/09/2027","year":2027,"venue":"Effingham Performance Center","city":"Effingham","state":"IL","amount":10000,"buyer":"Dustin Knowlton"},{"date":"04/10/2027","year":2027,"venue":"The Midland Theatre","city":"Newark","state":"OH","amount":10000,"buyer":"Dustin Knowlton"},{"date":"05/01/2027","year":2027,"venue":"Brandon Amphitheater","city":"Brandon","state":"MS","amount":10000,"buyer":"John Ruffino"},{"date":"05/21/2027","year":2027,"venue":"Blue Gate Performing Arts Center","city":"Shipshewana","state":"IN","amount":10000,"buyer":"Ryan Riegsecker"},{"date":"05/29/2027","year":2027,"venue":"The Wharf Amphitheater","city":"Orange Beach","state":"AL","amount":10000,"buyer":"John Ruffino"},{"date":"06/11/2027","year":2027,"venue":"El Rancho Monana","city":"Richmond","state":"MN","amount":10000,"buyer":"Mark Winter"},{"date":"08/21/2027","year":2027,"venue":"Tier 10 Music & Sports Park","city":"Spencer","state":"IN","amount":22500,"buyer":"Rob Helms"},{"date":"09/18/2027","year":2027,"venue":"Brown County Music Center","city":"Nashville","state":"IN","amount":10000,"buyer":"Doug Lefrak"}],
-  "Lonestar":[{"date":"01/22/2027","year":2027,"venue":"Seneca Niagara Resort & Casino","city":"Niagara Falls","state":"NY","amount":50000,"buyer":"Joe Moallempour"},{"date":"01/23/2027","year":2027,"venue":"Loos Center for the Arts","city":"Woodstock","state":"CT","amount":40000,"buyer":"Eric Davidson"},{"date":"01/31/2027","year":2027,"venue":"SeaWorld Orlando","city":"Orlando","state":"FL","amount":50000,"buyer":"Jill Kopecky"},{"date":"02/07/2027","year":2027,"venue":"Boots on the Water Cruise","city":"Miami","state":"FL","amount":100000,"buyer":"Tanner Smith"},{"date":"02/18/2027","year":2027,"venue":"Win River Resort and Casino","city":"Redding","state":"CA","amount":52500,"buyer":"Kelly Moreno"},{"date":"02/19/2027","year":2027,"venue":"Agua Caliente Casino","city":"Rancho Mirage","state":"CA","amount":60000,"buyer":"Joe Moallempour"},{"date":"02/20/2027","year":2027,"venue":"Thunder Valley Casino Resort","city":"Lincoln","state":"CA","amount":50000,"buyer":"Joe Moallempour"},{"date":"03/05/2027","year":2027,"venue":"Brown County Music Center","city":"Nashville","state":"IN","amount":42500,"buyer":"Doug Lefrak"},{"date":"03/06/2027","year":2027,"venue":"Ryman Auditorium","city":"Nashville","state":"TN","amount":35000,"buyer":"Chrissy Hall"},{"date":"04/03/2027","year":2027,"venue":"Decker Auditorium","city":"Fort Dodge","state":"IA","amount":40000,"buyer":"Sean Mulvihill"},{"date":"04/09/2027","year":2027,"venue":"Meskwaki Bingo Casino Hotel","city":"Tama","state":"IA","amount":45000,"buyer":"Danny Heller"},{"date":"04/10/2027","year":2027,"venue":"WinnaVegas Casino Resort","city":"Sloan","state":"IA","amount":50000,"buyer":"Danny Heller"},{"date":"04/17/2027","year":2027,"venue":"Silver Dollar City","city":"Branson","state":"MO","amount":45000,"buyer":"Mike Hefley"},{"date":"05/01/2027","year":2027,"venue":"Brandon Amphitheater","city":"Brandon","state":"MS","amount":50000,"buyer":"John Ruffino"},{"date":"07/09/2027","year":2027,"venue":"Country Thunder Saskatchewan","city":"Craven","state":"SK","amount":40000,"buyer":"Gil Cunningham"},{"date":"07/12/2027","year":2027,"venue":"Calgary Stampede (Big Four Roadhouse Stage)","city":"Calgary","state":"AB","amount":75000,"buyer":"Ryland Munn"},{"date":"08/26/2027","year":2027,"venue":"YQM Country Fest","city":"Dieppe","state":"NB","amount":70000,"buyer":"Sam Bourgeois"},{"date":"09/04/2027","year":2027,"venue":"Barn at Dunvilla","city":"Pelican Rapids","state":"MN","amount":60000,"buyer":"Thomas Winters"},{"date":"09/17/2027","year":2027,"venue":"Blue Gate Performing Arts Center","city":"Shipshewana","state":"IN","amount":40000,"buyer":"Ryan Riegsecker"},{"date":"09/18/2027","year":2027,"venue":"City of Marshall Annual Autumn Fest","city":"Marshall","state":"IL","amount":50000,"buyer":"Ross Rowling"},{"date":"09/30/2027","year":2027,"venue":"PRIVATE GALA (Voices of Hope)","city":"Honolulu","state":"HI","amount":40000,"buyer":"Jessica Munoz"}],
+  "Lonestar":[{"date":"01/22/2027","year":2027,"venue":"Seneca Niagara Resort & Casino","city":"Niagara Falls","state":"NY","amount":50000,"buyer":"Joe Moallempour"},{"date":"01/23/2027","year":2027,"venue":"Loos Center for the Arts","city":"Woodstock","state":"CT","amount":40000,"buyer":"Eric Davidson"},{"date":"01/31/2027","year":2027,"venue":"SeaWorld Orlando","city":"Orlando","state":"FL","amount":50000,"buyer":"Jill Kopecky"},{"date":"02/07/2027","year":2027,"venue":"Boots on the Water Cruise","city":"Miami","state":"FL","amount":100000,"buyer":"Tanner Smith"},{"date":"02/18/2027","year":2027,"venue":"Win River Resort and Casino","city":"Redding","state":"CA","amount":52500,"buyer":"Kelly Moreno"},{"date":"02/19/2027","year":2027,"venue":"Agua Caliente Casino","city":"Rancho Mirage","state":"CA","amount":60000,"buyer":"Joe Moallempour"},{"date":"02/20/2027","year":2027,"venue":"Thunder Valley Casino Resort","city":"Lincoln","state":"CA","amount":50000,"buyer":"Joe Moallempour"},{"date":"02/28/2027","year":2027,"venue":"Kickback Kountry","city":"Immokalee","state":"FL","amount":47500,"buyer":"Jack Manis"},{"date":"03/05/2027","year":2027,"venue":"Brown County Music Center","city":"Nashville","state":"IN","amount":42500,"buyer":"Doug Lefrak"},{"date":"03/06/2027","year":2027,"venue":"Ryman Auditorium","city":"Nashville","state":"TN","amount":35000,"buyer":"Chrissy Hall"},{"date":"04/03/2027","year":2027,"venue":"Decker Auditorium","city":"Fort Dodge","state":"IA","amount":40000,"buyer":"Sean Mulvihill"},{"date":"04/09/2027","year":2027,"venue":"Meskwaki Bingo Casino Hotel","city":"Tama","state":"IA","amount":45000,"buyer":"Danny Heller"},{"date":"04/10/2027","year":2027,"venue":"WinnaVegas Casino Resort","city":"Sloan","state":"IA","amount":50000,"buyer":"Danny Heller"},{"date":"04/17/2027","year":2027,"venue":"Silver Dollar City","city":"Branson","state":"MO","amount":45000,"buyer":"Mike Hefley"},{"date":"05/01/2027","year":2027,"venue":"Brandon Amphitheater","city":"Brandon","state":"MS","amount":50000,"buyer":"John Ruffino"},{"date":"07/09/2027","year":2027,"venue":"Country Thunder Saskatchewan","city":"Craven","state":"SK","amount":40000,"buyer":"Gil Cunningham"},{"date":"07/12/2027","year":2027,"venue":"Calgary Stampede (Big Four Roadhouse Stage)","city":"Calgary","state":"AB","amount":75000,"buyer":"Ryland Munn"},{"date":"08/26/2027","year":2027,"venue":"YQM Country Fest","city":"Dieppe","state":"NB","amount":70000,"buyer":"Sam Bourgeois"},{"date":"09/04/2027","year":2027,"venue":"Barn at Dunvilla","city":"Pelican Rapids","state":"MN","amount":60000,"buyer":"Thomas Winters"},{"date":"09/17/2027","year":2027,"venue":"Blue Gate Performing Arts Center","city":"Shipshewana","state":"IN","amount":40000,"buyer":"Ryan Riegsecker"},{"date":"09/18/2027","year":2027,"venue":"City of Marshall Annual Autumn Fest","city":"Marshall","state":"IL","amount":50000,"buyer":"Ross Rowling"},{"date":"09/30/2027","year":2027,"venue":"PRIVATE GALA (Voices of Hope)","city":"Honolulu","state":"HI","amount":40000,"buyer":"Jessica Munoz"}],
   "Bill Murray & His Blood Brothers":[{"date":"01/28/2027","year":2027,"venue":"Gruene Hall","city":"New Braunfels","state":"TX","amount":170000,"buyer":"Trey Jackson"},{"date":"01/30/2027","year":2027,"venue":"Billy Bob's Texas","city":"Fort Worth","state":"TX","amount":85000,"buyer":"Marty Travis"},{"date":"06/11/2027","year":2027,"venue":"St. George Theatre","city":"Staten Island","state":"NY","amount":85000,"buyer":"Ross Atamian"},{"date":"06/12/2027","year":2027,"venue":"Tropicana Atlantic City","city":"Atlantic City","state":"NJ","amount":100000,"buyer":"Anna Lang"}],
   "Montgomery Gentry ft. Eddie Montgomery":[{"date":"01/29/2027","year":2027,"venue":"Honeywell Center Ford Theater","city":"Wabash","state":"IN","amount":25000,"buyer":"Kyle Dubois"},{"date":"01/30/2027","year":2027,"venue":"Marion Cultural & Civic Center","city":"Marion","state":"IL","amount":27500,"buyer":"Josh Benson"},{"date":"01/31/2027","year":2027,"venue":"Lincoln Theatre","city":"Belleville","state":"IL","amount":20000,"buyer":"Garrett Peek"},{"date":"02/26/2027","year":2027,"venue":"Alpena Events Complex (APlex)","city":"Alpena","state":"MI","amount":35000,"buyer":"Bill Magann"},{"date":"02/27/2027","year":2027,"venue":"Niswonger Performing Arts Center","city":"Van Wert","state":"OH","amount":30000,"buyer":"Jarin Hart"},{"date":"05/01/2027","year":2027,"venue":"Brandon Amphitheater","city":"Brandon","state":"MS","amount":35000,"buyer":"John Ruffino"},{"date":"05/21/2027","year":2027,"venue":"Island View Casino Resort","city":"Gulfport","state":"MS","amount":30000,"buyer":"Greg Napier"},{"date":"05/28/2027","year":2027,"venue":"Atwood Music Festival","city":"Monticello","state":"MS","amount":40000,"buyer":"Justin Mullins"},{"date":"05/29/2027","year":2027,"venue":"The Wharf Amphitheater","city":"Orange Beach","state":"AL","amount":35000,"buyer":"John Ruffino"},{"date":"06/04/2027","year":2027,"venue":"Downtown Street Concert","city":"Haleyville","state":"AL","amount":35000,"buyer":"Michael Wright"},{"date":"06/12/2027","year":2027,"venue":"Morgan County Pre-Fair Country Concert","city":"Martinsville","state":"IN","amount":40000,"buyer":"Rob Helms"},{"date":"07/03/2027","year":2027,"venue":"Moberly Park","city":"Moberly","state":"MO","amount":40000,"buyer":"Greg Napier"},{"date":"07/29/2027","year":2027,"venue":"Big Valley Jamboree","city":"Camrose","state":"AB","amount":40000,"buyer":"Gil Cunningham"},{"date":"08/10/2027","year":2027,"venue":"Warren County Fair","city":"Pittsfield","state":"PA","amount":35000,"buyer":"Todd Boltin"},{"date":"08/12/2027","year":2027,"venue":"Schoharie County Sunshine Fair","city":"Cobleskill","state":"NY","amount":35000,"buyer":"Andy Guerriero"},{"date":"09/10/2027","year":2027,"venue":"Blue Gate Performing Arts Center","city":"Shipshewana","state":"IN","amount":35000,"buyer":"Ryan Riegsecker"},{"date":"09/11/2027","year":2027,"venue":"Hardin County Fair","city":"Kenton","state":"OH","amount":40000,"buyer":"Chuck Lipps"}],
   "The Ferrari Group, Inc d/b/a Etta May":[{"date":"02/04/2027","year":2027,"venue":"OWA Theater","city":"Foley","state":"AL","amount":7500,"buyer":"Brandon Kilpatrick"},{"date":"02/06/2027","year":2027,"venue":"The Grand Theatre","city":"Cartersville","state":"GA","amount":8000,"buyer":"Matt Santini"},{"date":"02/13/2027","year":2027,"venue":"Kentucky Opry","city":"Benton","state":"KY","amount":7000,"buyer":"Clay Campbell"},{"date":"03/04/2027","year":2027,"venue":"Newberry Opera House","city":"Newberry","state":"SC","amount":7500,"buyer":"Anne Pinckney Smith"},{"date":"05/07/2027","year":2027,"venue":"Meyer Theatre","city":"Green Bay","state":"WI","amount":10000,"buyer":"Matt Goebel"}],
   "The Kentucky Headhunters":[{"date":"02/18/2027","year":2027,"venue":"Rodgers Theatre","city":"Poplar Bluff","state":"MO","amount":15000,"buyer":"Dustin Knowlton"},{"date":"02/19/2027","year":2027,"venue":"Ottawa Memorial Auditorium","city":"Ottawa","state":"KS","amount":15000,"buyer":"Dustin Knowlton"},{"date":"02/20/2027","year":2027,"venue":"The Aud","city":"Eureka Springs","state":"AR","amount":15000,"buyer":"Dustin Knowlton"},{"date":"02/26/2027","year":2027,"venue":"The Maryland Theatre","city":"Hagerstown","state":"MD","amount":15000,"buyer":"Dustin Knowlton"},{"date":"02/27/2027","year":2027,"venue":"Robinson Grand Performing Arts Center","city":"Clarksburg","state":"WV","amount":15000,"buyer":"Dustin Knowlton"},{"date":"04/09/2027","year":2027,"venue":"Effingham Performance Center","city":"Effingham","state":"IL","amount":15000,"buyer":"Dustin Knowlton"},{"date":"04/10/2027","year":2027,"venue":"The Midland Theatre","city":"Newark","state":"OH","amount":15000,"buyer":"Dustin Knowlton"},{"date":"05/20/2027","year":2027,"venue":"Lincoln Theatre","city":"Belleville","state":"IL","amount":15000,"buyer":"Garrett Peek"},{"date":"05/21/2027","year":2027,"venue":"Blue Gate Performing Arts Center","city":"Shipshewana","state":"IN","amount":17500,"buyer":"Ryan Riegsecker"},{"date":"05/22/2027","year":2027,"venue":"Madisonville Salutes (Free Event)","city":"Madisonville","state":"KY","amount":20000,"buyer":"Heath Eric"},{"date":"05/29/2027","year":2027,"venue":"Ozark Riverfest","city":"Ozark","state":"AR","amount":20000,"buyer":"KC Carrell"},{"date":"06/11/2027","year":2027,"venue":"Historic Masonic Theatre","city":"Clifton Forge","state":"VA","amount":19000,"buyer":"JJ Musgrove"},{"date":"06/17/2027","year":2027,"venue":"Rend Lake Days Sesser Homecoming","city":"Sesser","state":"IL","amount":17500,"buyer":"John Gulley"},{"date":"09/11/2027","year":2027,"venue":"Bodock Festival","city":"Pontotoc","state":"MS","amount":16000,"buyer":"Tim Warren"},{"date":"09/18/2027","year":2027,"venue":"Brown County Music Center","city":"Nashville","state":"IN","amount":22500,"buyer":"Doug Lefrak"}],
   "Aaron Tippin":[{"date":"02/19/2027","year":2027,"venue":"Everglades Seafood Festival","city":"Everglades City","state":"FL","amount":35000,"buyer":"Vicki Oler"},{"date":"03/09/2027","year":2027,"venue":"Florida Strawberry Festival","city":"Plant City","state":"FL","amount":24750,"buyer":"Todd Boltin"},{"date":"03/19/2027","year":2027,"venue":"Island Resort & Casino","city":"Harris","state":"MI","amount":48125,"buyer":"Aaron Green"},{"date":"04/01/2027","year":2027,"venue":"Blue Gate Performing Arts Center","city":"Shipshewana","state":"IN","amount":25000,"buyer":"Ryan Riegsecker"},{"date":"07/16/2027","year":2027,"venue":"Freedom Fest","city":"Little Falls","state":"MN","amount":40000,"buyer":"Jerry Braam"},{"date":"07/17/2027","year":2027,"venue":"Edgar County Fair","city":"Paris","state":"IL","amount":27500,"buyer":"Casey Blakeley"}],
-  "Trace Adkins":[{"date":"02/20/2027","year":2027,"venue":"Food & Wine Festival at Busch Gardens","city":"Tampa","state":"FL","amount":125000,"buyer":"Jill Kopecky"},{"date":"03/04/2027","year":2027,"venue":"PRIVATE EVENT (Bayer, Inc. Conference)","city":"New Orleans","state":"LA","amount":125000,"buyer":"Kate Kaltenbach Watson"},{"date":"03/05/2027","year":2027,"venue":"Hard Rock Live Biloxi","city":"Biloxi","state":"MS","amount":85000,"buyer":"Chris Lundgren"},{"date":"04/15/2027","year":2027,"venue":"Ford Theater","city":"Wabash","state":"IN","amount":100000,"buyer":"Kyle Dubois"},{"date":"04/16/2027","year":2027,"venue":"Cedar Crossing Casino","city":"Cedar Rapids","state":"IA","amount":100000,"buyer":"Jalen Franko"},{"date":"04/17/2027","year":2027,"venue":"Crystal Grand Music Theatre","city":"Wisconsin Dells","state":"WI","amount":100000,"buyer":"Michael Alexander"},{"date":"05/01/2027","year":2027,"venue":"Brandon Amphitheater","city":"Brandon","state":"MS","amount":125000,"buyer":"John Ruffino"},{"date":"05/07/2027","year":2027,"venue":"APGFCU Arena at Harford Community College","city":"Bel Air","state":"MD","amount":100000,"buyer":"Stacy Rutherford"},{"date":"05/08/2027","year":2027,"venue":"Stadium Theatre","city":"Woonsocket","state":"RI","amount":100000,"buyer":"Dana Willitts"},{"date":"05/09/2027","year":2027,"venue":"Community Arts Center","city":"Williamsport","state":"PA","amount":100000,"buyer":"Greg Ray"},{"date":"05/29/2027","year":2027,"venue":"The Wharf Amphitheater","city":"Orange Beach","state":"AL","amount":125000,"buyer":"John Ruffino"},{"date":"06/18/2027","year":2027,"venue":"Sweetland Amphitheatre","city":"LaGrange","state":"GA","amount":115000,"buyer":"Brent Gibbs"},{"date":"06/19/2027","year":2027,"venue":"Bucking K Rodeo","city":"Hickory Grove","state":"SC","amount":175000,"buyer":"Chris McClure"},{"date":"06/20/2027","year":2027,"venue":"Florida Theatre","city":"Jacksonville","state":"FL","amount":80000,"buyer":"Kevin Stone"},{"date":"07/02/2027","year":2027,"venue":"\"Gone Country\" Festival","city":"Decatur","state":"IL","amount":100000,"buyer":"Casey Blakeley"},{"date":"09/14/2027","year":2027,"venue":"Spokane County Interstate Fair","city":"Spokane Valley","state":"WA","amount":125000,"buyer":"Chloe Dubrovay"},{"date":"09/16/2027","year":2027,"venue":"Cali Country Cruise","city":"Long Beach","state":"CA","amount":275000,"buyer":"Carly Dibble"},{"date":"09/25/2027","year":2027,"venue":"Little River Casino Resort","city":"Manistee","state":"MI","amount":150000,"buyer":"Bob Galombeck"}],
+  "Trace Adkins":[{"date":"02/20/2027","year":2027,"venue":"Food & Wine Festival at Busch Gardens","city":"Tampa","state":"FL","amount":125000,"buyer":"Jill Kopecky"},{"date":"03/04/2027","year":2027,"venue":"PRIVATE EVENT (Bayer, Inc. Conference)","city":"New Orleans","state":"LA","amount":125000,"buyer":"Kate Kaltenbach Watson"},{"date":"03/05/2027","year":2027,"venue":"Hard Rock Live Biloxi","city":"Biloxi","state":"MS","amount":85000,"buyer":"Chris Lundgren"},{"date":"04/15/2027","year":2027,"venue":"Ford Theater","city":"Wabash","state":"IN","amount":100000,"buyer":"Kyle Dubois"},{"date":"04/16/2027","year":2027,"venue":"Cedar Crossing Casino","city":"Cedar Rapids","state":"IA","amount":100000,"buyer":"Jalen Franko"},{"date":"04/17/2027","year":2027,"venue":"Crystal Grand Music Theatre","city":"Wisconsin Dells","state":"WI","amount":100000,"buyer":"Michael Alexander"},{"date":"05/01/2027","year":2027,"venue":"Brandon Amphitheater","city":"Brandon","state":"MS","amount":125000,"buyer":"John Ruffino"},{"date":"05/07/2027","year":2027,"venue":"APGFCU Arena at Harford Community College","city":"Bel Air","state":"MD","amount":100000,"buyer":"Stacy Rutherford"},{"date":"05/08/2027","year":2027,"venue":"Stadium Theatre","city":"Woonsocket","state":"RI","amount":100000,"buyer":"Dana Willitts"},{"date":"05/09/2027","year":2027,"venue":"Community Arts Center","city":"Williamsport","state":"PA","amount":100000,"buyer":"Greg Ray"},{"date":"05/29/2027","year":2027,"venue":"The Wharf Amphitheater","city":"Orange Beach","state":"AL","amount":125000,"buyer":"John Ruffino"},{"date":"06/18/2027","year":2027,"venue":"Sweetland Amphitheatre","city":"LaGrange","state":"GA","amount":115000,"buyer":"Brent Gibbs"},{"date":"06/19/2027","year":2027,"venue":"Bucking K Rodeo","city":"Hickory Grove","state":"SC","amount":175000,"buyer":"Chris McClure"},{"date":"06/20/2027","year":2027,"venue":"Florida Theatre","city":"Jacksonville","state":"FL","amount":80000,"buyer":"Kevin Stone"},{"date":"07/02/2027","year":2027,"venue":"\"Gone Country\" Festival","city":"Decatur","state":"IL","amount":100000,"buyer":"Casey Blakeley"},{"date":"09/14/2027","year":2027,"venue":"Spokane County Interstate Fair","city":"Spokane Valley","state":"WA","amount":125000,"buyer":"Chloe Dubrovay"},{"date":"09/16/2027","year":2027,"venue":"Cali Country Cruise","city":"Long Beach","state":"CA","amount":275000,"buyer":"Carly Dibble"}],
   "Dallas Smith":[{"date":"02/20/2027","year":2027,"venue":"Boots in the Barn","city":"Victoria","state":"BC","amount":100000,"buyer":"Billie Jo Aasen"},{"date":"02/27/2027","year":2027,"venue":"Boots in the Barn","city":"Kelowna","state":"BC","amount":100000,"buyer":"Billie Jo Aasen"},{"date":"07/31/2027","year":2027,"venue":"Big Valley Jamboree","city":"Camrose","state":"AB","amount":125000,"buyer":"Gil Cunningham"},{"date":"08/14/2027","year":2027,"venue":"Orchard Music Festival","city":"Wellesley","state":"ON","amount":100000,"buyer":"Ralph Spoltore"}],
   "The Mavericks":[{"date":"02/27/2027","year":2027,"venue":"Commodore Ballroom","city":"Vancouver","state":"BC","amount":25000,"buyer":"Alex Vyskocil"},{"date":"03/31/2027","year":2027,"venue":"Burton Cummings Theatre","city":"Winnipeg","state":"MB","amount":25000,"buyer":"Alex Vyskocil"},{"date":"04/01/2027","year":2027,"venue":"Casino Regina","city":"Regina","state":"SK","amount":25000,"buyer":"Ashley Seidler"},{"date":"04/02/2027","year":2027,"venue":"River Cree Resort & Casino","city":"Enoch","state":"AB","amount":75000,"buyer":"Judy Alberti"},{"date":"04/03/2027","year":2027,"venue":"Grey Eagle Resort & Casino","city":"Calgary","state":"AB","amount":40000,"buyer":"Alex Vyskocil"},{"date":"08/06/2027","year":2027,"venue":"Hawgarama 2027","city":"Emerald Park","state":"Sk","amount":80000,"buyer":"Gary Drummond"}],
+  "Billy Dean":[{"date":"02/28/2027","year":2027,"venue":"Kickback Kountry","city":"Immokalee","state":"FL","amount":20000,"buyer":"Jack Manis"},{"date":"03/20/2027","year":2027,"venue":"Blue Gate Music Hall","city":"Shipshewana","state":"IN","amount":10000,"buyer":"Ryan Riegsecker"},{"date":"05/14/2027","year":2027,"venue":"Reclaimed Stage","city":"Centralia","state":"MO","amount":10000,"buyer":"Brad Page"},{"date":"05/23/2027","year":2027,"venue":"Dollywood Pines Theatre","city":"Pigeon Forge","state":"TN","amount":20000,"buyer":"Roger White"},{"date":"07/09/2027","year":2027,"venue":"ND Country Fest","city":"New Salem","state":"ND","amount":30000,"buyer":"Taylor Williamson"},{"date":"07/16/2027","year":2027,"venue":"Amelia Earhart Festival","city":"Atchison","state":"KS","amount":15000,"buyer":"Nicole More"}],
   "The Legendary Life of Tom Petty":[{"date":"03/04/2027","year":2027,"venue":"Meyer Theatre","city":"Green Bay","state":"WI","amount":12500,"buyer":"Matt Goebel"},{"date":"03/05/2027","year":2027,"venue":"Eagles Theatre","city":"Wabash","state":"IN","amount":8500,"buyer":"Kyle Dubois"},{"date":"03/06/2027","year":2027,"venue":"Marion Cultural & Civic Center","city":"Marion","state":"IL","amount":10000,"buyer":"Josh Benson"},{"date":"04/02/2027","year":2027,"venue":"Greg Rowles Legacy Theatre","city":"North Myrtle Beach","state":"SC","amount":12500,"buyer":"Robert Whelchel"},{"date":"04/03/2027","year":2027,"venue":"Florida Theatre","city":"Jacksonville","state":"FL","amount":9000,"buyer":"Kevin Stone"},{"date":"04/04/2027","year":2027,"venue":"Sharon L. Morse Performing Arts Center","city":"The Villages","state":"FL","amount":12500,"buyer":"Sierra Weiss"}],
   "Jeff Allen":[{"date":"03/06/2027","year":2027,"venue":"Orange Blossom Opry","city":"Weirsdale","state":"FL","amount":12500,"buyer":"Gary Kirves"},{"date":"03/19/2027","year":2027,"venue":"Grand Theatre Center for the Arts","city":"Tracy","state":"CA","amount":13000,"buyer":"Robert Tombari"}],
   "Jason Petty":[{"date":"03/20/2027","year":2027,"venue":"Gobbler Theater","city":"Johnson Creek","state":"WI","amount":8000,"buyer":"Jon Kaiser"},{"date":"04/08/2027","year":2027,"venue":"Colonial Theater","city":"Idaho Falls","state":"ID","amount":15000,"buyer":"Gray Augustus"},{"date":"04/23/2027","year":2027,"venue":"The Texan Theatre","city":"Cleveland","state":"TX","amount":3500,"buyer":"Clay Coursey"},{"date":"04/24/2027","year":2027,"venue":"Old Town Theatre","city":"Huntsville","state":"TX","amount":6800,"buyer":"Lois Stehlik"},{"date":"04/25/2027","year":2027,"venue":"The Blackhawk Theatre","city":"Whitehouse","state":"TX","amount":3500,"buyer":"Clay Coursey"},{"date":"05/25/2027","year":2027,"venue":"Paramount Center for the Arts","city":"St. Cloud","state":"MN","amount":12000,"buyer":"Jordyn Foss"}],
-  "Billy Dean":[{"date":"03/20/2027","year":2027,"venue":"Blue Gate Music Hall","city":"Shipshewana","state":"IN","amount":10000,"buyer":"Ryan Riegsecker"},{"date":"05/14/2027","year":2027,"venue":"Reclaimed Stage","city":"Centralia","state":"MO","amount":10000,"buyer":"Brad Page"},{"date":"07/09/2027","year":2027,"venue":"ND Country Fest","city":"New Salem","state":"ND","amount":30000,"buyer":"Taylor Williamson"},{"date":"07/16/2027","year":2027,"venue":"Amelia Earhart Festival","city":"Atchison","state":"KS","amount":15000,"buyer":"Nicole More"}],
   "Phil Vassar":[{"date":"04/16/2027","year":2027,"venue":"PRIVATE EVENT","city":"Virginia Beach","state":"VA","amount":40000,"buyer":"Jennie Capps"},{"date":"07/09/2027","year":2027,"venue":"Vicki's Camp N Country Jam","city":"Redwood Falls","state":"MN","amount":45000,"buyer":"Vickie Friedrichs"},{"date":"07/10/2027","year":2027,"venue":"ND Country Fest","city":"New Salem","state":"ND","amount":50000,"buyer":"Taylor Williamson"},{"date":"08/27/2027","year":2027,"venue":"Concert in the Corn","city":"Mason","state":"WI","amount":50000,"buyer":"Tyler Vernon"}],
-  "The Road Hammers":[{"date":"04/17/2027","year":2027,"venue":"\"Hammer Jam Yukon\"","city":"Whitehorse","state":"Yukon","amount":85000,"buyer":"Mike Thorpe"}],
+  "The Road Hammers":[{"date":"04/17/2027","year":2027,"venue":"\"Hammer Jam Yukon\"","city":"Whitehorse","state":"Yukon","amount":85000,"buyer":"Mike Thorpe"},{"date":"07/08/2027","year":2027,"venue":"Calgary Stampede Grandstand","city":"Calgary","state":"AB","amount":215000,"buyer":"Ryland Munn"}],
   "Dean Brody":[{"date":"06/17/2027","year":2027,"venue":"Multiple Arenas","city":"Multiple Cities","state":"ON","amount":150000,"buyer":"Charlie Jones"},{"date":"07/30/2027","year":2027,"venue":"Strathmore Stampede","city":"Strathmore","state":"AB","amount":100000,"buyer":"Ashley Hanna"}],
   "CHINGY":[{"date":"06/26/2027","year":2027,"venue":"SeaWorld San Diego","city":"San Diego","state":"CA","amount":50000,"buyer":"Lacey Snyder"}],
+  "Terri Clark":[{"date":"07/02/2027","year":2027,"venue":"Ponoka Stampede & Exhibition","city":"Ponoka","state":"AB","amount":135000,"buyer":"Paul Biro"},{"date":"08/21/2027","year":2027,"venue":"Music By The Mississippi Festival","city":"Welch","state":"MN","amount":75000,"buyer":"Paul Dockendorf"},{"date":"08/26/2027","year":2027,"venue":"YQM Country Fest","city":"Dieppe","state":"NB","amount":130000,"buyer":"Sam Bourgeois"}],
   "Davisson Brothers Band":[{"date":"07/10/2027","year":2027,"venue":"Middletown Commons","city":"White Hall","state":"WV","amount":13000,"buyer":"Kristin Kirk"}],
-  "Chad Brownlee":[{"date":"07/29/2027","year":2027,"venue":"PRIVATE WEDDING","city":"Lake Country","state":"BC","amount":40000,"buyer":"Brendon Hamilton"}],
-  "Terri Clark":[{"date":"08/21/2027","year":2027,"venue":"Music By The Mississippi Festival","city":"Welch","state":"MN","amount":75000,"buyer":"Paul Dockendorf"},{"date":"08/26/2027","year":2027,"venue":"YQM Country Fest","city":"Dieppe","state":"NB","amount":130000,"buyer":"Sam Bourgeois"}]
+  "Chad Brownlee":[{"date":"07/29/2027","year":2027,"venue":"PRIVATE WEDDING","city":"Lake Country","state":"BC","amount":40000,"buyer":"Brendon Hamilton"}]
 };
 /* ==2027_DATA_END== */
 // Merge 2027 shows into ARTIST_DATA
@@ -2470,6 +2483,7 @@ async function runAvailsCheck(){
   }
 
   const dateVal     = document.getElementById('avails-date').value;
+  const dateEndVal  = document.getElementById('avails-date-end').value;
   const bMinRaw     = document.getElementById('avails-bmin').value;
   const bMaxRaw     = document.getElementById('avails-bmax').value;
   const hasBudget   = bMinRaw !== '' || bMaxRaw !== '';
@@ -2478,6 +2492,19 @@ async function runAvailsCheck(){
   const targetDate  = dateVal ? new Date(dateVal+'T12:00:00') : null;
   // midnight version for calendar-day comparisons
   const targetMid   = targetDate ? new Date(targetDate.getFullYear(), targetDate.getMonth(), targetDate.getDate()) : null;
+  // Range mode: end date provided and after start date
+  const targetDateEnd = (dateEndVal && targetMid) ? new Date(dateEndVal+'T12:00:00') : null;
+  const targetEndMid  = targetDateEnd ? new Date(targetDateEnd.getFullYear(), targetDateEnd.getMonth(), targetDateEnd.getDate()) : null;
+  const isRange = !!(targetMid && targetEndMid && targetEndMid > targetMid);
+  // Build array of midnight dates for range mode
+  const rangeDates = [];
+  if(isRange){
+    let cur = new Date(targetMid);
+    while(cur <= targetEndMid){
+      rangeDates.push(new Date(cur));
+      cur.setDate(cur.getDate()+1);
+    }
+  }
 
   const today = new Date(); today.setHours(0,0,0,0);
 
@@ -2579,15 +2606,50 @@ async function runAvailsCheck(){
         return {...s, showDate:sd, dist, drivingDist, calDaysDiff, showIsBefore, fmtDate};
       });
 
-    // ── Booked on event date — include in red section ─────────────────────
+    // ── Radius conflict: any upcoming show within 150 mi (driving distance) ──
+    // Applies regardless of date — radius clause is geography-based
+    const conflict = upcoming.find(s => s.drivingDist !== null && s.drivingDist <= RADIUS_MILES);
+    if(conflict){ conflicted.push({artist, conflict}); continue; }
+
+    if(isRange){
+      // ── DATE RANGE MODE: evaluate availability per date ────────────────
+      const dateStatuses = rangeDates.map(evMid => {
+        const dateStr = evMid.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
+
+        // Booked on this exact date?
+        const bookedShow = upcoming.find(s => s.showDate.getTime() === evMid.getTime());
+        if(bookedShow) return {evMid, dateStr, status:'booked', show:bookedShow};
+
+        // Drive conflict for this specific event date?
+        const nearbyShows = upcoming
+          .filter(s => s.showDate.getTime() !== evMid.getTime())
+          .map(s => {
+            const calDaysDiff = Math.round(Math.abs(s.showDate - evMid) / 864e5);
+            const maxMiles    = calDaysDiff * MILES_PER_DAY;
+            return {...s, calDaysDiff, maxMiles, showIsBefore: s.showDate < evMid};
+          })
+          .filter(s => s.calDaysDiff > 0 && s.calDaysDiff <= NEARBY_DAYS);
+
+        const blocking = nearbyShows.filter(s =>
+          s.drivingDist !== null && s.drivingDist > s.maxMiles
+        );
+        if(blocking.length > 0) return {evMid, dateStr, status:'drive-conflict', shows:blocking};
+
+        return {evMid, dateStr, status:'available'};
+      });
+
+      const availCount = dateStatuses.filter(d => d.status==='available').length;
+      available.push({artist, artistStatus:'available', routeShows:[], hasData: allShows.length>0,
+                      isRange:true, dateStatuses, availCount});
+      continue;
+    }
+
+    // ── SINGLE DATE MODE (existing logic) ─────────────────────────────────
+    // Booked on event date — include in red section
     if(targetMid){
       const bookedShow = upcoming.find(s => s.calDaysDiff === 0);
       if(bookedShow){ booked.push({artist, bookedShow}); continue; }
     }
-
-    // ── Radius conflict: any upcoming show within 150 mi (driving distance) ──
-    const conflict = upcoming.find(s => s.drivingDist !== null && s.drivingDist <= RADIUS_MILES);
-    if(conflict){ conflicted.push({artist, conflict}); continue; }
 
     // ── Routing pool: shows other than the event date ─────────────────────
     const routingPool = upcoming.filter(s => s.calDaysDiff === null || s.calDaysDiff > 0);
@@ -2602,9 +2664,9 @@ async function runAvailsCheck(){
         .filter(s => s.calDaysDiff !== null && s.calDaysDiff <= NEARBY_DAYS)
         .map(s => {
           let routeStatus;
-          const maxMiles = s.calDaysDiff * MILES_PER_DAY; // 600 per available travel day
+          const maxMiles = s.calDaysDiff * MILES_PER_DAY;
           if(s.drivingDist === null){
-            routeStatus = 'unknown'; // no distance data — benefit of the doubt
+            routeStatus = 'unknown';
           } else if(s.calDaysDiff <= ROUTED_DAYS && s.drivingDist <= maxMiles){
             routeStatus = 'routed';
           } else if(s.calDaysDiff >= ROUTABLE_MIN_DAYS && s.calDaysDiff <= ROUTABLE_MAX_DAYS
@@ -2627,7 +2689,7 @@ async function runAvailsCheck(){
       if(nearby.some(s => s.routeStatus==='routed'))        artistStatus = 'routed';
       else if(nearby.some(s => s.routeStatus==='routable')) artistStatus = 'routable';
     } else {
-      // No event date — geographic proximity only (use 1-day cap for routed, 2-day for routable)
+      // No event date — geographic proximity only
       const routedGeo   = routingPool.filter(s => s.drivingDist!==null && s.drivingDist <= MILES_PER_DAY);
       const routableGeo = routingPool.filter(s => s.drivingDist!==null && s.drivingDist <= MILES_PER_DAY * 2);
       if(routedGeo.length){
@@ -2654,17 +2716,19 @@ async function runAvailsCheck(){
   statusEl.className='prox-status ok';
   btn.disabled=false;
 
-  availsLastResult = {available, booked, conflicted, center, targetDate, budgetMin, budgetMax, hasBudget, bMinRaw, bMaxRaw};
+  availsLastResult = {available, booked, conflicted, center, targetDate, targetDateEnd, isRange, rangeDates, budgetMin, budgetMax, hasBudget, bMinRaw, bMaxRaw};
   renderAvailsResults();
   document.getElementById('avails-output').classList.add('visible');
 }
 
 function renderAvailsResults(){
   if(!availsLastResult) return;
-  const {available, booked, conflicted, center, targetDate, budgetMin, budgetMax, hasBudget} = availsLastResult;
+  const {available, booked, conflicted, center, targetDate, targetDateEnd, isRange, rangeDates, budgetMin, budgetMax, hasBudget} = availsLastResult;
 
-  const dateStr   = targetDate
-    ? targetDate.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}) : null;
+  const fmtD = d => d ? d.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}) : null;
+  const dateStr   = isRange
+    ? fmtD(targetDate)+' – '+fmtD(targetDateEnd)
+    : fmtD(targetDate);
   const budgetStr = hasBudget
     ? fmtGuar(budgetMin)+(budgetMax===Infinity ? '+' : '–'+fmtGuar(budgetMax)) : null;
 
@@ -2685,20 +2749,70 @@ function renderAvailsResults(){
   if(budgetStr) html += '<span>· Budget: '+budgetStr+'</span>';
   html += '</div>';
 
+  // ── Helper: render range date-status lines for one artist ────
+  function renderDateStatuses(dateStatuses){
+    let out = '';
+    const total = dateStatuses.length;
+    const COMPACT_THRESHOLD = 8; // show per-date rows for short ranges; summary for long ones
+
+    if(total <= COMPACT_THRESHOLD){
+      // Show every date explicitly
+      dateStatuses.forEach(d => {
+        if(d.status === 'available'){
+          out += '<div class="avails-status-line avails-ok">✓ '+d.dateStr+' — Available</div>';
+        } else if(d.status === 'booked'){
+          out += '<div class="avails-status-line avails-err">✗ '+d.dateStr+' — BOOKED · '
+               + d.show.venue+' in '+d.show.city+', '+d.show.state+'</div>';
+        } else if(d.status === 'drive-conflict'){
+          const s0 = d.shows[0];
+          const days = s0.calDaysDiff === 1
+            ? '1 day '+(s0.showIsBefore?'before':'after')
+            : s0.calDaysDiff+' days '+(s0.showIsBefore?'before':'after');
+          out += '<div class="avails-status-line avails-err">✗ '+d.dateStr+' — DRIVE CONFLICT · '
+               + s0.city+', '+s0.state+' ('+s0.drivingDist+' mi · '+days+')</div>';
+        }
+      });
+    } else {
+      // Summary header + only list non-available dates
+      const availCount = dateStatuses.filter(d => d.status==='available').length;
+      out += '<div class="avails-status-line avails-ok">✓ Available '+availCount+' of '+total+' dates</div>';
+      dateStatuses.filter(d => d.status !== 'available').forEach(d => {
+        if(d.status === 'booked'){
+          out += '<div class="avails-status-line avails-err" style="margin-left:12px">✗ '+d.dateStr+' — BOOKED · '
+               + d.show.venue+' in '+d.show.city+', '+d.show.state+'</div>';
+        } else if(d.status === 'drive-conflict'){
+          const s0 = d.shows[0];
+          const days = s0.calDaysDiff === 1
+            ? '1 day '+(s0.showIsBefore?'before':'after')
+            : s0.calDaysDiff+' days '+(s0.showIsBefore?'before':'after');
+          out += '<div class="avails-status-line avails-err" style="margin-left:12px">✗ '+d.dateStr+' — DRIVE CONFLICT · '
+               + s0.city+', '+s0.state+' ('+s0.drivingDist+' mi · '+days+')</div>';
+        }
+      });
+    }
+    return out;
+  }
+
   // ── Available ────────────────────────────────────────────────
-  if(available.length){
-    html += '<div class="avails-section-head">'+available.length+' Artist'+(available.length!==1?'s':'')+' Available</div>';
-    for(const {artist, artistStatus, routeShows, hasData} of available){
+  // In range mode, count only artists with at least 1 available date
+  const trueAvail = isRange ? available.filter(a => a.availCount > 0) : available;
+  const partialOnly = isRange ? available.filter(a => a.availCount === 0) : [];
+
+  if(trueAvail.length){
+    html += '<div class="avails-section-head">'+trueAvail.length+' Artist'+(trueAvail.length!==1?'s':'')+' Available</div>';
+    for(const {artist, artistStatus, routeShows, hasData, isRange: itemIsRange, dateStatuses} of trueAvail){
       html += '<div class="avails-item">';
       html += '<div class="avails-name">'+artist.name
             + '<span class="avails-guar">'+fmtGuarRange(artist.min,artist.max)+'</span></div>';
 
       if(!hasData){
         html += '<div class="avails-status-line avails-nodata">No tour data on file</div>';
+      } else if(itemIsRange){
+        html += renderDateStatuses(dateStatuses);
       } else {
         const visibleShows = routeShows.filter(s => s.routeStatus !== 'noted');
         if(visibleShows.length > 0){
-          visibleShows.forEach((s,i) => {
+          visibleShows.forEach(s => {
             const cls   = s.routeStatus==='routed' ? 'avails-routed' : 'avails-routable';
             const label = s.routeStatus==='routed' ? '★ ROUTED' : '◈ ROUTABLE';
             const dist  = s.drivingDist !== null ? s.drivingDist+' driving mi' : '~'+s.dist+' mi straight-line';
@@ -2714,7 +2828,20 @@ function renderAvailsResults(){
     }
   }
 
-  // ── Already booked on event date ──────────────────────────────
+  // ── No available dates in range (all booked/drive-conflict, no radius) ──
+  if(partialOnly.length){
+    html += '<div class="avails-section-head avails-conflict-head">'
+          + partialOnly.length+' Artist'+(partialOnly.length!==1?'s':'')+' — No Open Dates in Range</div>';
+    for(const {artist, dateStatuses} of partialOnly){
+      html += '<div class="avails-item">';
+      html += '<div class="avails-name avails-err">'+artist.name
+            + '<span class="avails-guar">'+fmtGuarRange(artist.min,artist.max)+'</span></div>';
+      html += renderDateStatuses(dateStatuses);
+      html += '</div>';
+    }
+  }
+
+  // ── Already booked on event date (single-date mode only) ─────
   if(booked.length){
     html += '<div class="avails-section-head avails-conflict-head">'
           + booked.length+' Already Booked on This Date</div>';
@@ -2759,14 +2886,15 @@ function renderAvailsResults(){
     }
   }
 
-  if(!available.length && !booked.length && !conflicted.length){
+  if(!trueAvail.length && !partialOnly.length && !booked.length && !conflicted.length){
     html += '<div class="empty"><h3>No artists match that budget range</h3></div>';
   }
 
   document.getElementById('avails-scroll').innerHTML =
     '<div style="max-width:580px;margin:0 auto;width:100%;box-sizing:border-box">'+html+'</div>';
+  const unavailCount = partialOnly.length + booked.length + conflicted.length;
   document.getElementById('avails-summary').textContent =
-    available.length+' available · '+(booked.length+conflicted.length)+' unavailable';
+    trueAvail.length+' available · '+unavailCount+' unavailable';
 }
 
 function generateAvailsText(){
