@@ -197,7 +197,7 @@ input[type=range]{width:100%;accent-color:var(--red);cursor:pointer}
 .rc-miles-display{font-family:"DM Mono",monospace;font-size:12px;color:var(--red);text-align:center;padding:6px 8px;background:var(--surface2);border-radius:5px;border:1px solid var(--border)}
 
 /* ── Route Sheet Tab ─────────────────────────────────────────────────────── */
-#routesheet-page{display:none;position:absolute;inset:0;top:53px;flex-direction:row;overflow:hidden;background:var(--bg)}
+#routesheet-page{display:none;position:absolute;inset:0;top:53px;flex-direction:row;overflow:hidden;background:var(--bg);z-index:100}
 #routesheet-page.visible{display:flex}
 .rs-sidebar{width:190px;min-width:170px;border-right:1px solid var(--border);overflow-y:auto;padding:10px 0;flex-shrink:0;background:var(--bg)}
 .rs-sidebar-title{font-family:"DM Mono",monospace;font-size:9px;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);padding:0 14px 8px}
@@ -206,30 +206,48 @@ input[type=range]{width:100%;accent-color:var(--red);cursor:pointer}
 .rs-artist-btn.rs-active{color:var(--red);border-left-color:var(--red);background:var(--surface2);font-weight:600}
 .rs-content{flex:1;overflow-y:auto;padding:20px 24px;box-sizing:border-box}
 .rs-empty{display:flex;align-items:center;justify-content:center;height:200px;color:var(--muted);font-family:"DM Mono",monospace;font-size:11px;letter-spacing:.08em;text-align:center}
-.rs-sheet{margin-bottom:48px}
-.rs-sheet-header{display:flex;align-items:baseline;justify-content:space-between;border-bottom:2px solid var(--red);padding-bottom:8px;margin-bottom:14px;flex-wrap:wrap;gap:8px}
+.rs-sheet{margin-bottom:40px}
+.rs-sheet-header{display:flex;align-items:baseline;justify-content:space-between;border-bottom:2px solid var(--red);padding-bottom:8px;margin-bottom:14px;flex-wrap:wrap;gap:6px}
 .rs-sheet-name{font-family:"DM Mono",monospace;font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:var(--text);font-weight:700}
-.rs-sheet-totals{display:flex;gap:20px}
+.rs-sheet-totals{display:flex;gap:16px;flex-wrap:wrap}
 .rs-sheet-total-item{font-family:"DM Mono",monospace;font-size:10px;color:var(--muted)}
 .rs-sheet-total-item b{color:var(--text);font-weight:600}
 .rs-months-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
 @media(max-width:900px){.rs-months-grid{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:600px){.rs-months-grid{grid-template-columns:1fr}}
+@media(max-width:640px){.rs-months-grid{grid-template-columns:1fr}}
 .rs-month{background:var(--surface);border:1px solid var(--border);border-radius:5px;overflow:hidden}
 .rs-month-head{background:#E8112D;color:#fff;font-family:"DM Mono",monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;padding:5px 8px;font-weight:700}
-.rs-month-totrow{display:grid;grid-template-columns:auto 1fr auto;gap:4px;align-items:center;padding:3px 8px 3px;background:var(--surface2);border-bottom:1px solid var(--border);font-family:"DM Mono",monospace;font-size:9px;color:var(--muted);column-gap:6px}
-.rs-month-totrow span:last-child{text-align:right;color:var(--text)}
-.rs-day{display:grid;grid-template-columns:26px 18px 1fr 11px auto;align-items:center;padding:1px 8px;border-bottom:1px solid rgba(255,255,255,.025);font-family:"DM Mono",monospace;font-size:9.5px;gap:4px;min-height:17px}
+.rs-month-totrow{display:flex;align-items:center;justify-content:space-between;padding:3px 8px;background:var(--surface2);border-bottom:1px solid var(--border);font-family:"DM Mono",monospace;font-size:9px;color:var(--muted)}
+.rs-month-totrow span:last-child{color:var(--text);font-weight:600}
+/* Day rows: flex, two-line for show days */
+.rs-day{display:flex;align-items:flex-start;padding:2px 8px;border-bottom:1px solid rgba(255,255,255,.028);font-family:"DM Mono",monospace;min-height:18px}
 .rs-day:last-child{border-bottom:none}
-.rs-day-dow{color:var(--muted);font-size:8.5px}
-.rs-day-num{color:var(--text)}
-.rs-day-loc{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--text)}
-.rs-day-st.c{color:#22c55e;font-weight:700}
-.rs-day-st.p{color:#f97316;font-weight:700}
+.rs-day-left{width:38px;min-width:38px;flex-shrink:0;display:flex;gap:4px;align-items:baseline;padding-top:2px}
+.rs-day-dow{color:var(--muted);font-size:8px}
+.rs-day-num{color:var(--text);font-size:9px}
+.rs-day-right{flex:1;min-width:0;display:flex;flex-direction:column;padding-bottom:3px}
+.rs-day-loc{color:var(--text);font-size:10px;line-height:1.4;word-break:break-word}
+.rs-day-meta{display:flex;align-items:center;gap:8px;margin-top:1px}
+.rs-day-st{font-size:9px;font-weight:700}
+.rs-day-st.c{color:#22c55e}
+.rs-day-st.p{color:#f97316}
 .rs-day-st.b{color:var(--muted)}
-.rs-day-amt{text-align:right;white-space:nowrap;color:#a0b0b8}
-.rs-day.has-show{background:rgba(34,197,94,.055)}
-.rs-day.wknd .rs-day-dow,.rs-day.wknd .rs-day-num{color:#5a6a72}
+.rs-day-amt{color:#8fa8b2;font-size:9px}
+.rs-day.has-show{background:rgba(34,197,94,.06)}
+.rs-day.wknd .rs-day-dow,.rs-day.wknd .rs-day-num{color:#4a5a62}
+/* Mobile: horizontal artist chip strip */
+@media(max-width:640px){
+  #routesheet-page{flex-direction:column}
+  .rs-sidebar{width:100%;min-width:0;border-right:none;border-bottom:1px solid var(--border);display:flex;flex-direction:row;overflow-x:auto;overflow-y:hidden;padding:8px 10px;flex-shrink:0;scrollbar-width:none;-webkit-overflow-scrolling:touch;gap:6px}
+  .rs-sidebar::-webkit-scrollbar{display:none}
+  .rs-sidebar-title{display:none}
+  .rs-artist-btn{display:inline-flex;align-items:center;width:auto;min-width:max-content;white-space:nowrap;border:1px solid var(--border2);border-left:1px solid var(--border2);border-radius:20px;padding:5px 13px;font-size:11px;flex-shrink:0}
+  .rs-artist-btn.rs-active{background:var(--red);color:#fff;border-color:var(--red)}
+  .rs-content{padding:14px 12px}
+  .rs-sheet-name{font-size:11px;letter-spacing:.06em}
+  .rs-sheet-totals{gap:10px}
+  .rs-sheet-total-item{font-size:9px}
+}
 /* ── Avails List Mode ────────────────────────────────────────────────────── */
 #avails-page{display:none;flex:1;position:relative;background:var(--bg);overflow:hidden}
 #avails-page.visible{display:flex;align-items:center;justify-content:center}
@@ -3135,20 +3153,17 @@ setAppMode('avails');
           if(show.statusLetter==='C') monthConfirmed += show.amount;
           if(show.statusLetter==='P') monthPending += show.amount;
           const loc = show.city && show.state ? `${show.city}, ${show.state}` : (show.city || show.state || '—');
+          const amtStr = fmt$(show.amount);
           rows.push(`<div class="rs-day has-show${isWknd?' wknd':''}">` +
-            `<span class="rs-day-dow">${dow}</span>` +
-            `<span class="rs-day-num">${d}</span>` +
-            `<span class="rs-day-loc" title="${loc}">${loc}</span>` +
-            `<span class="rs-day-st ${show.statusLetter.toLowerCase()}">${show.statusLetter}</span>` +
-            `<span class="rs-day-amt">${fmt$(show.amount)}</span>` +
+            `<div class="rs-day-left"><span class="rs-day-dow">${dow}</span><span class="rs-day-num">${d}</span></div>` +
+            `<div class="rs-day-right">` +
+              `<div class="rs-day-loc">${loc}</div>` +
+              `<div class="rs-day-meta"><span class="rs-day-st ${show.statusLetter.toLowerCase()}">${show.statusLetter}</span>${amtStr?`<span class="rs-day-amt">${amtStr}</span>`:''}</div>` +
+            `</div>` +
             `</div>`);
         } else {
           rows.push(`<div class="rs-day${isWknd?' wknd':''}">` +
-            `<span class="rs-day-dow">${dow}</span>` +
-            `<span class="rs-day-num">${d}</span>` +
-            `<span class="rs-day-loc"></span>` +
-            `<span class="rs-day-st"></span>` +
-            `<span class="rs-day-amt"></span>` +
+            `<div class="rs-day-left"><span class="rs-day-dow">${dow}</span><span class="rs-day-num">${d}</span></div>` +
             `</div>`);
         }
       }
