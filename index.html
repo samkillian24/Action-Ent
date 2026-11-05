@@ -160,7 +160,10 @@ input[type=range]{width:100%;accent-color:var(--red);cursor:pointer}
   .mode-tab{white-space:nowrap;flex-shrink:0}
   .layout{height:calc(100vh - 92px)}
   #avails-page{height:calc(100vh - 92px)}
+  #routesheet-page{top:92px}
 }
+/* Hide venue-filter aside in avails mode (it's for map/venue tabs only) */
+#avails-page .filters{display:none!important}
 .mode-tab{font-family:"DM Mono",monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;padding:5px 14px;cursor:pointer;color:#7a8a92;background:none;border:none;transition:color .15s,background .15s}
 .mode-tab.active{color:#0d0f10;background:#e8eaeb}
 .mode-tab:not(.active):hover{color:#e8eaeb}
@@ -214,7 +217,7 @@ input[type=range]{width:100%;accent-color:var(--red);cursor:pointer}
 .rs-sheet-total-item b{color:var(--text);font-weight:600}
 .rs-months-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
 @media(max-width:900px){.rs-months-grid{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:640px){.rs-months-grid{grid-template-columns:1fr}}
+@media(max-width:768px){.rs-months-grid{grid-template-columns:1fr}}
 .rs-month{background:var(--surface);border:1px solid var(--border);border-radius:5px;overflow:hidden}
 .rs-month-head{background:#E8112D;color:#fff;font-family:"DM Mono",monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;padding:5px 8px;font-weight:700}
 .rs-month-totrow{display:flex;align-items:center;justify-content:space-between;padding:3px 8px;background:var(--surface2);border-bottom:1px solid var(--border);font-family:"DM Mono",monospace;font-size:9px;color:var(--muted)}
@@ -236,13 +239,13 @@ input[type=range]{width:100%;accent-color:var(--red);cursor:pointer}
 .rs-day.has-show{background:rgba(34,197,94,.06)}
 .rs-day.wknd .rs-day-dow,.rs-day.wknd .rs-day-num{color:#4a5a62}
 /* Mobile: horizontal artist chip strip */
-@media(max-width:640px){
+@media(max-width:768px){
   #routesheet-page{flex-direction:column}
-  .rs-sidebar{width:100%;min-width:0;border-right:none;border-bottom:1px solid var(--border);overflow:hidden;padding:0;flex-shrink:0;background:var(--bg)}
+  .rs-sidebar{width:100%;min-width:0;border-right:none;border-bottom:1px solid var(--border);display:flex;flex-direction:row;overflow-x:auto;overflow-y:hidden;padding:7px 10px;gap:5px;flex-shrink:0;scrollbar-width:none;-webkit-overflow-scrolling:touch;align-items:center}
+  .rs-sidebar::-webkit-scrollbar{display:none}
   .rs-sidebar-title{display:none}
-  #rs-artist-list{display:flex;flex-direction:row;overflow-x:auto;overflow-y:hidden;padding:7px 10px;gap:5px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
-  #rs-artist-list::-webkit-scrollbar{display:none}
-  .rs-artist-btn{display:inline-flex;align-items:center;width:auto;min-width:max-content;white-space:nowrap;border:1px solid var(--border2);border-left:1px solid var(--border2);border-radius:20px;padding:4px 10px;font-size:10px;flex-shrink:0;line-height:1.2}
+  #rs-artist-list{display:contents}
+  .rs-artist-btn{display:inline-flex;align-items:center;width:auto;min-width:max-content;white-space:nowrap;border:1px solid var(--border2);border-left:1px solid var(--border2);border-radius:20px;padding:4px 11px;font-size:10px;flex-shrink:0;line-height:1.3}
   .rs-artist-btn.rs-active{background:var(--red);color:#fff;border-color:var(--red)}
   .rs-content{padding:12px 10px}
   .rs-sheet-name{font-size:11px;letter-spacing:.06em}
