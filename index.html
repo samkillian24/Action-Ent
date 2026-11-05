@@ -196,6 +196,40 @@ input[type=range]{width:100%;accent-color:var(--red);cursor:pointer}
 .rc-leg-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
 .rc-miles-display{font-family:"DM Mono",monospace;font-size:12px;color:var(--red);text-align:center;padding:6px 8px;background:var(--surface2);border-radius:5px;border:1px solid var(--border)}
 
+/* ── Route Sheet Tab ─────────────────────────────────────────────────────── */
+#routesheet-page{display:none;position:absolute;inset:0;top:53px;flex-direction:row;overflow:hidden;background:var(--bg)}
+#routesheet-page.visible{display:flex}
+.rs-sidebar{width:190px;min-width:170px;border-right:1px solid var(--border);overflow-y:auto;padding:10px 0;flex-shrink:0;background:var(--bg)}
+.rs-sidebar-title{font-family:"DM Mono",monospace;font-size:9px;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);padding:0 14px 8px}
+.rs-artist-btn{display:block;width:100%;text-align:left;background:none;border:none;border-left:3px solid transparent;color:var(--text);font-family:"DM Sans",sans-serif;font-size:11px;padding:5px 14px;cursor:pointer;line-height:1.3;box-sizing:border-box}
+.rs-artist-btn:hover{background:var(--surface2)}
+.rs-artist-btn.rs-active{color:var(--red);border-left-color:var(--red);background:var(--surface2);font-weight:600}
+.rs-content{flex:1;overflow-y:auto;padding:20px 24px;box-sizing:border-box}
+.rs-empty{display:flex;align-items:center;justify-content:center;height:200px;color:var(--muted);font-family:"DM Mono",monospace;font-size:11px;letter-spacing:.08em;text-align:center}
+.rs-sheet{margin-bottom:48px}
+.rs-sheet-header{display:flex;align-items:baseline;justify-content:space-between;border-bottom:2px solid var(--red);padding-bottom:8px;margin-bottom:14px;flex-wrap:wrap;gap:8px}
+.rs-sheet-name{font-family:"DM Mono",monospace;font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:var(--text);font-weight:700}
+.rs-sheet-totals{display:flex;gap:20px}
+.rs-sheet-total-item{font-family:"DM Mono",monospace;font-size:10px;color:var(--muted)}
+.rs-sheet-total-item b{color:var(--text);font-weight:600}
+.rs-months-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+@media(max-width:900px){.rs-months-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:600px){.rs-months-grid{grid-template-columns:1fr}}
+.rs-month{background:var(--surface);border:1px solid var(--border);border-radius:5px;overflow:hidden}
+.rs-month-head{background:#E8112D;color:#fff;font-family:"DM Mono",monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;padding:5px 8px;font-weight:700}
+.rs-month-totrow{display:grid;grid-template-columns:auto 1fr auto;gap:4px;align-items:center;padding:3px 8px 3px;background:var(--surface2);border-bottom:1px solid var(--border);font-family:"DM Mono",monospace;font-size:9px;color:var(--muted);column-gap:6px}
+.rs-month-totrow span:last-child{text-align:right;color:var(--text)}
+.rs-day{display:grid;grid-template-columns:26px 18px 1fr 11px auto;align-items:center;padding:1px 8px;border-bottom:1px solid rgba(255,255,255,.025);font-family:"DM Mono",monospace;font-size:9.5px;gap:4px;min-height:17px}
+.rs-day:last-child{border-bottom:none}
+.rs-day-dow{color:var(--muted);font-size:8.5px}
+.rs-day-num{color:var(--text)}
+.rs-day-loc{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--text)}
+.rs-day-st.c{color:#22c55e;font-weight:700}
+.rs-day-st.p{color:#f97316;font-weight:700}
+.rs-day-st.b{color:var(--muted)}
+.rs-day-amt{text-align:right;white-space:nowrap;color:#a0b0b8}
+.rs-day.has-show{background:rgba(34,197,94,.055)}
+.rs-day.wknd .rs-day-dow,.rs-day.wknd .rs-day-num{color:#5a6a72}
 /* ── Avails List Mode ────────────────────────────────────────────────────── */
 #avails-page{display:none;flex:1;position:relative;background:var(--bg);overflow:hidden}
 #avails-page.visible{display:flex;align-items:center;justify-content:center}
@@ -343,6 +377,7 @@ input[type=date].prox-input{color-scheme:dark}
     <button class="mode-tab" id="tab-routing" onclick="setAppMode('routing')">Routing</button>
     <button class="mode-tab" id="tab-venue" onclick="setAppMode('venue')">Venue</button>
     <button class="mode-tab" id="tab-artist" onclick="setAppMode('artist')">Artist Map</button>
+    <button class="mode-tab" id="tab-routesheet" onclick="setAppMode('routesheet')">Route Sheets</button>
   </div>
   <div class="hdr-right">
     <button class="back-btn" id="back-btn" onclick="closePanel()">← Back to Map</button>
@@ -551,6 +586,17 @@ input[type=date].prox-input{color-scheme:dark}
       <input class="ps" id="ps" type="text" placeholder="Search venues or buyers…" oninput="renderList()">
     </div>
     <div class="vlist" id="vlist"></div>
+  </div>
+</div>
+
+<div id="routesheet-page">
+  <div class="rs-sidebar">
+    <div class="rs-sidebar-title">Artists</div>
+    <div id="rs-artist-list"></div>
+  </div>
+  <div class="rs-content" id="rs-content">
+    <div class="rs-empty" id="rs-empty">Select an artist on the left to view their route sheet</div>
+    <div id="rs-sheets"></div>
   </div>
 </div>
 
@@ -2169,7 +2215,7 @@ const RC_ARTISTS = [
   'Davisson Brothers Band',
   'Exile',
   'Jason Petty',
-
+  'Kevin Costner & Modern West',
   'Lee Greenwood',
   'Lonestar',
   'Montgomery Gentry ft. Eddie Montgomery',
@@ -2426,6 +2472,9 @@ buildRcArtistSelect();
 
 const AVAILS_ARTISTS = [
   { name:'Trace Adkins',                           min:85000,  max:500000 },
+  { name:'Bill Murray & His Blood Brothers',       min:85000,  max:175000 },
+  { name:'Billy Bob Thornton & The Boxmasters',    min:50000,  max:150000 },
+  { name:'Kevin Costner & Modern West',            min:150000, max:250000 },
   { name:'Sawyer Brown',                           min:40000,  max:100000 },
   { name:'Terri Clark',                            min:75000,  max:100000 },
   { name:'Confederate Railroad',                   min:10000,  max:25000  },
@@ -2974,6 +3023,183 @@ showTT = function(event, code, n){
 
 // Open to Avails List on load
 setAppMode('avails');
+</script>
+
+<script>
+/* ── Route Sheet Tab ──────────────────────────────────────────────────────── */
+(function(){
+  'use strict';
+
+  const DOW = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+  const MONTHS = ['January','February','March','April','May','June',
+                  'July','August','September','October','November','December'];
+
+  let rsSelectedArtists = new Set();
+
+  /* ── Build 2027 artist list ─────────────────────────────────────────────── */
+  function getRS2027Artists(){
+    if(typeof ARTIST_DATA_2027 === 'undefined') return [];
+    const names = Object.keys(ARTIST_DATA_2027);
+    names.sort((a,b)=>a.localeCompare(b));
+    return names;
+  }
+
+  function buildRsArtistList(){
+    const list = document.getElementById('rs-artist-list');
+    if(!list) return;
+    const artists = getRS2027Artists();
+    list.innerHTML = '';
+    if(!artists.length){
+      list.innerHTML = '<div style="padding:10px 14px;font-family:\'DM Mono\',monospace;font-size:9px;color:var(--muted)">No 2027 data loaded</div>';
+      return;
+    }
+    artists.forEach(name => {
+      const btn = document.createElement('button');
+      btn.className = 'rs-artist-btn' + (rsSelectedArtists.has(name) ? ' rs-active' : '');
+      btn.textContent = name;
+      btn.onclick = () => toggleRsArtist(name);
+      list.appendChild(btn);
+    });
+  }
+
+  function toggleRsArtist(name){
+    if(rsSelectedArtists.has(name)){
+      rsSelectedArtists.delete(name);
+    } else {
+      rsSelectedArtists.add(name);
+    }
+    buildRsArtistList();
+    renderRouteSheets();
+  }
+
+  /* ── Render all selected route sheets ──────────────────────────────────── */
+  function renderRouteSheets(){
+    const empty = document.getElementById('rs-empty');
+    const sheets = document.getElementById('rs-sheets');
+    if(!empty || !sheets) return;
+    if(!rsSelectedArtists.size){
+      empty.style.display = 'flex';
+      sheets.innerHTML = '';
+      return;
+    }
+    empty.style.display = 'none';
+    const sorted = Array.from(rsSelectedArtists).sort((a,b)=>a.localeCompare(b));
+    sheets.innerHTML = sorted.map(name => renderOneRouteSheet(name)).join('');
+  }
+
+  /* ── Render one artist's 2027 route sheet ───────────────────────────────── */
+  function renderOneRouteSheet(artistName){
+    if(typeof ARTIST_DATA_2027 === 'undefined') return '';
+    const rawData = ARTIST_DATA_2027[artistName];
+    if(!rawData) return '';
+
+    // Parse shows (array) keyed by date string MM/DD/YYYY
+    const showsByDate = {};
+    let confirmedTotal = 0, pendingTotal = 0;
+    const shows = Array.isArray(rawData) ? rawData : Object.values(rawData).flat();
+    shows.forEach(v => {
+      if(!v) return;
+      const dateKey = v.date || '';
+      if(!dateKey) return;
+      const statusRaw = (v.status || v.type || '').toUpperCase();
+      let statusLetter = 'C';
+      if(statusRaw.startsWith('P')) statusLetter = 'P';
+      else if(statusRaw.startsWith('B') || statusRaw === 'HOLD') statusLetter = 'B';
+      const amount = v.amount || v.fee || v.guarantee || 0;
+      const numAmount = typeof amount === 'string' ? parseFloat(amount.replace(/[^0-9.]/g,''))||0 : (amount||0);
+      showsByDate[dateKey] = { city: v.city||'', state: v.state||'', statusLetter, amount: numAmount };
+      if(statusLetter==='C') confirmedTotal += numAmount;
+      if(statusLetter==='P') pendingTotal += numAmount;
+    });
+
+    function fmt$(n){ return n>0 ? '$'+n.toLocaleString() : ''; }
+    function fmtTotal(n){ return n>0 ? '$'+n.toLocaleString() : '—'; }
+
+    // Build 12 months (Jan–Dec 2027)
+    const monthsHtml = MONTHS.map((monthName, mi) => {
+      const year = 2027;
+      const daysInMonth = new Date(year, mi+1, 0).getDate();
+      let monthConfirmed = 0, monthPending = 0;
+
+      // Build rows
+      const rows = [];
+      for(let d=1; d<=daysInMonth; d++){
+        const dateObj = new Date(year, mi, d);
+        const dow = DOW[dateObj.getDay()];
+        const mm = String(mi+1).padStart(2,'0');
+        const dd = String(d).padStart(2,'0');
+        const key = `${mm}/${dd}/${year}`;
+        const show = showsByDate[key];
+        const isWknd = dateObj.getDay()===0 || dateObj.getDay()===6;
+        if(show){
+          if(show.statusLetter==='C') monthConfirmed += show.amount;
+          if(show.statusLetter==='P') monthPending += show.amount;
+          const loc = show.city && show.state ? `${show.city}, ${show.state}` : (show.city || show.state || '—');
+          rows.push(`<div class="rs-day has-show${isWknd?' wknd':''}">` +
+            `<span class="rs-day-dow">${dow}</span>` +
+            `<span class="rs-day-num">${d}</span>` +
+            `<span class="rs-day-loc" title="${loc}">${loc}</span>` +
+            `<span class="rs-day-st ${show.statusLetter.toLowerCase()}">${show.statusLetter}</span>` +
+            `<span class="rs-day-amt">${fmt$(show.amount)}</span>` +
+            `</div>`);
+        } else {
+          rows.push(`<div class="rs-day${isWknd?' wknd':''}">` +
+            `<span class="rs-day-dow">${dow}</span>` +
+            `<span class="rs-day-num">${d}</span>` +
+            `<span class="rs-day-loc"></span>` +
+            `<span class="rs-day-st"></span>` +
+            `<span class="rs-day-amt"></span>` +
+            `</div>`);
+        }
+      }
+
+      const hasActivity = monthConfirmed > 0 || monthPending > 0;
+      return `<div class="rs-month">` +
+        `<div class="rs-month-head">${monthName} 2027</div>` +
+        (hasActivity ? `<div class="rs-month-totrow"><span>TOTAL</span><span></span><span>${fmtTotal(monthConfirmed)}</span></div>` +
+          (monthPending > 0 ? `<div class="rs-month-totrow"><span>PENDING</span><span></span><span>${fmtTotal(monthPending)}</span></div>` : '') : '') +
+        rows.join('') +
+        `</div>`;
+    }).join('');
+
+    return `<div class="rs-sheet">` +
+      `<div class="rs-sheet-header">` +
+        `<div class="rs-sheet-name">${artistName}</div>` +
+        `<div class="rs-sheet-totals">` +
+          `<div class="rs-sheet-total-item">Annual Total <b>${fmtTotal(confirmedTotal)}</b></div>` +
+          `<div class="rs-sheet-total-item">Pending <b>${fmtTotal(pendingTotal)}</b></div>` +
+        `</div>` +
+      `</div>` +
+      `<div class="rs-months-grid">${monthsHtml}</div>` +
+      `</div>`;
+  }
+
+  /* ── Wire into setAppMode ───────────────────────────────────────────────── */
+  const _prevSetAppMode = window.setAppMode;
+  window.setAppMode = function(mode){
+    _prevSetAppMode(mode);
+    const page = document.getElementById('routesheet-page');
+    const tab  = document.getElementById('tab-routesheet');
+    if(!page) return;
+    if(mode === 'routesheet'){
+      page.classList.add('visible');
+      if(tab) tab.classList.add('active');
+      buildRsArtistList();
+      renderRouteSheets();
+    } else {
+      page.classList.remove('visible');
+      if(tab) tab.classList.remove('active');
+    }
+  };
+
+  // Re-render when 2027 data is uploaded
+  const _orig = window.setAppMode;
+  document.addEventListener('artist2027DataUpdated', function(){
+    rsSelectedArtists = new Set();
+    buildRsArtistList();
+    renderRouteSheets();
+  });
+})();
 </script>
 
 </body>
